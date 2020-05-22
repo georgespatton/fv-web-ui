@@ -225,6 +225,8 @@ class DialectFilterListData extends Component {
 
       if (children.length > 0) {
         children.forEach((filterChild) => {
+          // TEMP FIX FOR: FW-1337: Filtering trashed children documents
+          if (filterChild.isTrashed) return
           const uidChild = filterChild.uid
           const childIsActive = appliedFilterIds.includes(uidChild)
           // Set flag for parent processing
@@ -275,6 +277,8 @@ class DialectFilterListData extends Component {
       const children = selectn('contextParameters.children.entries', filter)
       if (children.length > 0) {
         children.forEach((filterChild) => {
+          // TEMP FIX FOR: FW-1337: Filtering trashed children documents
+          if (filterChild.isTrashed) return
           const uidChild = filterChild.uid
 
           childrenUids.push(uidChild)
