@@ -12,6 +12,8 @@ services:
       - '8080:8080'
       - '8787:8787'
     environment:
+      - NUXEO_CUSTOM_PARAM=
+        fv.cognito.authenticateWithCognito=false
       - NUXEO_PACKAGES=nuxeo-dam nuxeo-jsf-ui
       - NUXEO_AUTOMATION_TRACE=false
       - NUXEO_DEV_MODE=false

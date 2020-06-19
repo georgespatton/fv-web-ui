@@ -39,11 +39,12 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
 
     echo "Set to import data on startup. Proceeding to import data."
 
-    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/batch/dev/fv-batch-import-2.0.0.jar -P $DIRECTORY
-    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/utils/dev/fv-nuxeo-utils-1.0-SNAPSHOT.jar -P $DIRECTORY
+    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/batch/dev/fv-batch-import-words.jar -P $DIRECTORY
+    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/batch/dev/fv-batch-import-phrases.jar -P $DIRECTORY
+    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/batch/dev/fv-batch-import-characters.jar -P $DIRECTORY
+    wget -N -q https://s3.ca-central-1.amazonaws.com/firstvoices.com/dist/utils/dev/fv-nuxeo-utils.jar -P $DIRECTORY
 
-    # Note: ALL of this should be moved into Nuxeo
-    # i.e. an end-point that does this setup, perhaps as part of test module
+    # TODO: make sure Jenkins is allowed to volumes + especially /opt/nuxeo/ext_data (?)
 
     # ----- TEST DIRECTORY SETUP ------
     # Check for FV/Workspaces/Data/Test directory and create it if it doesn't exist
@@ -108,21 +109,21 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     fi
     # Import Word using fv-batch-import
     cd $DIRECTORY
-    java -jar fv-batch-import-*.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangTwoWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageTwo
+    java -jar fv-batch-import-words.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangTwoWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageTwo
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-batch-import TestLanguageTwo Words batch failed \n'
     exit 1
     echo
     fi
     # # Import Phrase using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangTwoPhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageTwo
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageTwo Phrases batch failed \n'
-    # exit 1
-    # echo
-    # fi
-    # echo
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangTwoPhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageTwo
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageTwo Phrases batch failed \n'
+     exit 1
+     echo
+     fi
+     echo
 
     # ----- TEST LANGUAGE THREE ------
     cd $DIRECTORY
@@ -180,21 +181,21 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     fi
     # Import Word using fv-batch-import
     cd $DIRECTORY
-    java -jar fv-batch-import-*.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangFiveWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageFive
+    java -jar fv-batch-import-words.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangFiveWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageFive
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-batch-import TestLanguageFive Words batch failed \n'
     exit 1
     echo
     fi
     # # Import Phrase using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangFivePhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageFive
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageFive Phrases batch failed \n'
-    # exit 1
-    # echo
-    # fi
-    # echo
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangFivePhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageFive
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageFive Phrases batch failed \n'
+     exit 1
+     echo
+     fi
+     echo
 
     # ----- TEST LANGUAGE SIX ------
     cd $DIRECTORY
@@ -255,28 +256,28 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     fi
     # Import Words using fv-batch-import
     cd $DIRECTORY
-    java -jar fv-batch-import-*.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSixWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
+    java -jar fv-batch-import-words.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSixWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-batch-import TestLanguageSix Words batch failed \n'
     exit 1
     echo
     fi
     # # Import Phrases using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSixPhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageSix Phrases batch failed \n'
-    # exit 1
-    # echo
-    # fi
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-phrases.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSixPhrase.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageSix Phrases batch failed \n'
+     exit 1
+     echo
+     fi
     # # Import Alphabet using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-alphabet.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/alphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageSix Alphabet batch failed \n'
-    # exit 1
-    # echo
-    # fi
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-characters.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/alphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSix
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageSix Alphabet batch failed \n'
+     exit 1
+     echo
+     fi
     # Publish the language TestLanguageSix
     echo "Publishing language TestLanguageSix"
     response=$(curl -o /dev/null -s -w "%{response_code}\n" -X POST ${TARGET}'/nuxeo/site/automation/javascript.FVPublishOrRepublish' -H 'Nuxeo-Transaction-Timeout: 10' -H 'X-NXproperties: *' -H 'X-NXRepository: default' -H 'X-NXVoidOperation: false' -H 'content-type: application/json' -d '{"params":{},"input":"/FV/Workspaces/Data/Test/Test/TestLanguageSix","context":{}}' -u $CYPRESS_FV_USERNAME:$CYPRESS_FV_PASSWORD)
@@ -297,16 +298,16 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     fi
     echo
     # # Import Alphabet using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-alphabet.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSevenAlphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSeven
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageSeven Alphabet batch failed \n'
-    # exit 1
-    # echo
-    # fi
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-characters.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSevenAlphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSeven
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageSeven Alphabet batch failed \n'
+     exit 1
+     echo
+     fi
     # Import Words using fv-batch-import
     cd $DIRECTORY
-    java -jar fv-batch-import-*.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSevenWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSeven
+    java -jar fv-batch-import-words.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangSevenWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageSeven
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-batch-import TestLanguageSeven Words batch failed \n'
     exit 1
@@ -340,20 +341,20 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     fi
     # Import Words using fv-batch-import
     cd $DIRECTORY
-    java -jar fv-batch-import-*.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangEightWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageEight
+    java -jar fv-batch-import-words.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/testLangEightWord.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageEight
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-batch-import TestLanguageEight Words batch failed \n'
     exit 1
     echo
     fi
     # # Import Alphabet using fv-batch-import
-    # cd /opt/fixtures/batch_jarfiles/
-    # java -jar fv-batch-import-alphabet.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/alphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageEight
-    # if [[ "$?" -ne 0 ]]; then
-    # echo -e 'fv-batch-import TestLanguageEight Alphabet batch failed \n'
-    # exit 1
-    # echo
-    # fi
+     cd /opt/fixtures/batch_jarfiles/
+     java -jar fv-batch-import-characters.jar -url "$TARGET/nuxeo" -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -domain FV -csv-file /opt/fixtures/files/alphabet.csv -data-path /opt/fixtures/files/testLangTwoMedia/ -dialect-id fillerID -language-path Test/Test/TestLanguageEight
+     if [[ "$?" -ne 0 ]]; then
+     echo -e 'fv-batch-import TestLanguageEight Alphabet batch failed \n'
+     exit 1
+     echo
+     fi
     # Publish the language TestLanguageEight
     echo "Publishing language TestLanguageEight"
     response=$(curl -o /dev/null -s -w "%{response_code}\n" -X POST ${TARGET}'/nuxeo/site/automation/javascript.FVPublishOrRepublish' -H 'Nuxeo-Transaction-Timeout: 10' -H 'X-NXproperties: *' -H 'X-NXRepository: default' -H 'X-NXVoidOperation: false' -H 'content-type: application/json' -d '{"params":{},"input":"/FV/Workspaces/Data/Test/Test/TestLanguageEight","context":{}}' -u $CYPRESS_FV_USERNAME:$CYPRESS_FV_PASSWORD)
