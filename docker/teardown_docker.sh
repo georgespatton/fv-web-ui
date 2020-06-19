@@ -20,9 +20,9 @@ docker rm -f $(docker ps -q -a --filter $LABEL)
 echo
 
 ## Remove images (Note this generally should not be needed)
-echo -e "Removing all images"
-docker rmi -f $(docker images -a -q)
-echo
+#echo -e "Removing all images"
+#docker rmi -f $(docker images -a -q)
+#echo
 
 ## Remove volumes
 echo -e "Removing all volumes:"

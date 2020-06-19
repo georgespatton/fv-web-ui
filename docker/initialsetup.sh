@@ -83,7 +83,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     # ----- TEST LANGUAGE ONE ------
     cd $DIRECTORY
     # Create a fresh TestLanguageOne directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageOne
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageOne
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageOne creation failed \n'
     exit 1
@@ -93,7 +93,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
 
     # ----- TEST LANGUAGE TWO ------
     # Create a fresh TestLanguageTwo directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageTwo
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageTwo
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageTwo creation failed \n'
     exit 1
@@ -128,7 +128,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     # ----- TEST LANGUAGE THREE ------
     cd $DIRECTORY
     # Create a fresh TestLanguageThree directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageThree
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageThree
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageThree creation failed \n'
     exit 1
@@ -147,7 +147,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
 
     # ----- TEST LANGUAGE FOUR ------
     # Create a fresh TestLanguageFour directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageFour
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageFour
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageFour creation failed \n'
     exit 1
@@ -165,7 +165,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
 
     # ----- TEST LANGUAGE FIVE ------
     # Create a fresh TestLanguageFive directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageFive
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageFive
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageFive creation failed \n'
     exit 1
@@ -200,7 +200,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     # ----- TEST LANGUAGE SIX ------
     cd $DIRECTORY
     # Create a fresh TestLanguageSix directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageSix
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageSix
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageSix creation failed \n'
     exit 1
@@ -290,7 +290,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     # ----- TEST LANGUAGE SEVEN ------
     cd $DIRECTORY
     # Create a fresh TestLanguageSeven directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageSeven
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageSeven
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageSeven creation failed \n'
     exit 1
@@ -317,7 +317,7 @@ if [ "$START_WITH_DATA" = "cypress_fixtures" ]; then
     # ----- TEST LANGUAGE EIGHT ------
     cd $DIRECTORY
     # Create a fresh TestLanguageEight directory and all files
-    java -jar fv-nuxeo-utils-*.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageEight
+    java -jar fv-nuxeo-utils-words.jar create-language -username $CYPRESS_FV_USERNAME -password $CYPRESS_FV_PASSWORD -url $TARGET/nuxeo -language-directory Test/Test/ -language-name TestLanguageEight
     if [[ "$?" -ne 0 ]]; then
     echo -e 'fv-utils TestLanguageEight creation failed \n'
     exit 1
