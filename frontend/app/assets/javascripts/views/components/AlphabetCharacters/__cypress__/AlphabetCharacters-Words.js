@@ -8,7 +8,7 @@ describe('AlphabetCharacters-Words.js > AlphabetCharacters', () => {
 
     // No message, button, or selected letters
     cy.findByText(/Showing all words in the dictionary/i).should('exist')
-    cy.findByText('AlphabetCharacters').within(() => {
+    cy.findByTestId('AlphabetCharacters').within(() => {
       cy.get('a').each(($el) => {
         cy.wrap($el)
           .should('have.css', 'color')
