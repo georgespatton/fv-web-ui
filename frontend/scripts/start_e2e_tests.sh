@@ -14,6 +14,9 @@ echo "Cypress CI config (frontend/cypress_CI.json -> /e2e/cypress.json) file con
 cat /e2e/cypress.json
 echo "*****"
 
+# TODO: Test Cypress performance with and without Remote debugging enabled
+# TODO: Test Cypress performance with and without video recording
+
 # Wait for last language to be setup and accessible
 wait-on $CYPRESS_BASE_URL/nuxeo/api/v1/path/FV/sections/Data/Test/Test/TestLanguageEight && \
     npm ci --quiet && \

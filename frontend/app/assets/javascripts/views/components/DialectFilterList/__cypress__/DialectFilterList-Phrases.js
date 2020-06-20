@@ -82,14 +82,14 @@ describe('DialectFilterList-Phrases.js > DialectFilterList', () => {
       clearFilter: false,
     })
 
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('TestPhraseEight').should('exist')
       })
     cy.get('.DictionaryList__data--title .DictionaryList__colSort').click()
     cy.wait(500)
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('TestPhraseTwo').should('exist')

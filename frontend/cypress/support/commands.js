@@ -161,7 +161,7 @@ Cypress.Commands.add('AlphabetCharacters', (obj) => {
   if (_obj.confirmData) {
     cy.log('--- AlphabetCharacters: Confirm data  ---')
     // Confirm data
-    cy.findByTestId('DictionaryList__row').should('exist')
+    cy.findAllByTestId('DictionaryList__row').should('exist')
   }
 
   if (_obj.shouldPaginate) {
@@ -175,7 +175,7 @@ Cypress.Commands.add('AlphabetCharacters', (obj) => {
       cy.log('--- AlphabetCharacters: Confirm data  ---')
       // Confirm data
       cy.wait(500)
-      cy.findByTestId('DictionaryList__row').should('exist')
+      cy.findAllByTestId('DictionaryList__row').should('exist')
     }
   }
   if (_obj.clearFilter) {
@@ -233,7 +233,7 @@ Cypress.Commands.add('DialectFilterList', (obj) => {
   if (_obj.confirmData) {
     cy.log('--- DialectFilterList: Confirm data  ---')
     // Confirm data
-    cy.findByTestId('DictionaryList__row').should('exist')
+    cy.findAllByTestId('DictionaryList__row').should('exist')
   }
 
   if (_obj.shouldPaginate) {
@@ -247,7 +247,7 @@ Cypress.Commands.add('DialectFilterList', (obj) => {
       cy.log('--- DialectFilterList: Confirm data  ---')
       // Confirm data
       cy.wait(500)
-      cy.findByTestId('DictionaryList__row').should('exist')
+      cy.findAllByTestId('DictionaryList__row').should('exist')
     }
   }
   if (_obj.clearFilter) {
@@ -310,7 +310,7 @@ Cypress.Commands.add('FlashcardList', (obj) => {
     cy.findByText(/Cancel flashcard view/i).click()
 
     cy.log('--- FlashcardList: Confirm not in flashcard mode  ---')
-    cy.findByTestId('DictionaryList__row').should('exist')
+    cy.findAllByTestId('DictionaryList__row').should('exist')
   }
 })
 
@@ -385,7 +385,7 @@ Cypress.Commands.add('browseSearch', (obj) => {
 
   if (_obj.confirmData) {
     cy.log('--- browseSearch: Confirm data  ---')
-    cy.findByTestId('DictionaryList__row').should('exist')
+    cy.findAllByTestId('DictionaryList__row').should('exist')
   }
   if (_obj.confirmNoData) {
     cy.log('--- browseSearch: Confirm no data  ---')
@@ -400,7 +400,7 @@ Cypress.Commands.add('browseSearch', (obj) => {
     if (_obj.confirmData) {
       cy.log('--- browseSearch: Confirm data  ---')
       cy.wait(500)
-      cy.findByTestId('DictionaryList__row').should('exist')
+      cy.findAllByTestId('DictionaryList__row').should('exist')
     }
     if (_obj.confirmNoData) {
       cy.log('--- browseSearch: Confirm no data  ---')

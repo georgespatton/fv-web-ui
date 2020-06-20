@@ -70,14 +70,14 @@ describe('DialectFilterList-Words.js > DialectFilterList', () => {
       shouldPaginate: false,
       clearFilter: false,
     })
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('Dog').should('exist')
       })
     cy.get('.DictionaryList__data--title .DictionaryList__colSort').click()
     cy.wait(1750)
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('Tiger').should('exist')
@@ -156,14 +156,14 @@ describe('DialectFilterList-Words.js > DialectFilterList', () => {
       shouldPaginate: false,
       clearFilter: false,
     })
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('Dog').should('exist')
       })
     cy.get('.DictionaryList__data--title .DictionaryList__colSort').click()
     cy.wait(1750)
-    cy.queryAllByTestId('DictionaryList__row')
+    cy.findAllByTestId('DictionaryList__row')
       .eq(0)
       .within(() => {
         cy.findByText('Tiger').should('exist')
