@@ -33,8 +33,8 @@ body {
 @mobile-xs-width: 480px;
 @small-screen: 650px;
 @medium-screen: 991px;
-@font-family: Arial, sans-serif;
-@font-family-aboriginal-sans: "Aboriginal Sans", "Aboriginal Serif", "Lucida Grande", "Lucida Sans Unicode", Gentium,
+@font-family: "BCSans", Arial, sans-serif;
+@font-family-aboriginal-sans: "BCSans", "Aboriginal Sans", "Aboriginal Serif", "Lucida Grande", "Lucida Sans Unicode", Gentium,
   Code2001;
 
 // FONTS
@@ -73,6 +73,36 @@ body {
   font-family: @font-family-aboriginal-sans !important;
 }
 
+// BC Sans
+
+@font-face {
+  src: url('assets/fonts/bcsans/BCSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'BCSans';
+}
+@font-face {
+  src: url('assets/fonts/bcsans/BCSans-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-family: 'BCSans';
+}
+@font-face {
+  src: url('assets/fonts/bcsans/BCSans-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-family: 'BCSans';
+}
+@font-face {
+  src: url('assets/fonts/bcsans/BCSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-family: 'BCSans';
+}
+
+.BCSans {
+  font-family: "BCSans", @font-family-aboriginal-sans !important;
+}
 
 .app-wrapper {
   background-color: #fff;
