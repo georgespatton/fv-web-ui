@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script will add a comment to the any issues found in the pull request title and commits
-# stating who reviewed the pull request.
+# stating who reviewed the pull request. NB: Make file executable.
 
 # Get the reviewer username and the pr title
 AUTHOR=$1
@@ -14,8 +14,7 @@ TITLE=${TITLE//,/ }
 
 # Remove all items matching the pattern from the list and append them to FILTEREDLIST
 FILTEREDLIST=""
-for f in $TITLE
-do
+for f in $TITLE; do
     if [[ $f =~ FW-[0-9]{1,5} ]]; then
         FILTEREDLIST="$FILTEREDLIST ${BASH_REMATCH}"
     fi
@@ -33,8 +32,7 @@ FILTEREDLIST=${FILTEREDLIST//\"/ }
 
 # Remove all items matching the pattern FW-XXXXX from the list and append them to KEYLIST
 KEYLIST=""
-for f in $FILTEREDLIST
-do
+for f in $FILTEREDLIST; do
     if [[ $f =~ FW-[0-9]{1,5} ]]; then
         KEYLIST="$KEYLIST ${BASH_REMATCH}"
     fi
@@ -45,11 +43,10 @@ KEYLIST="$(echo $KEYLIST | tr ' ' '\n' | sort | uniq | xargs)"
 
 # Iterate through each issue found in the commit messages and perform Jira actions on each
 # Also check for existing comments on the issue to ensure no duplicates are created
-for f in $KEYLIST
-do
+for f in $KEYLIST; do
     if [[ $f =~ FW-[0-9]{1,5} ]]; then
         FOUND=false
-        jira view ${BASH_REMATCH} > /dev/null 2>&1
+        jira view ${BASH_REMATCH} >/dev/null 2>&1
         if [[ $? -eq 0 ]]; then
             FOUND=true
         fi
