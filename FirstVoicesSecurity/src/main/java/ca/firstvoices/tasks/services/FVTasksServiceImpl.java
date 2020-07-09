@@ -1,19 +1,22 @@
-package ca.firstvoices.services;
+package ca.firstvoices.tasks.services;
 
 import java.util.List;
 import org.nuxeo.ecm.automation.OperationException;
 import org.nuxeo.ecm.automation.core.util.PageProviderHelper;
 import org.nuxeo.ecm.automation.jaxrs.io.documents.PaginableDocumentModelListImpl;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.platform.query.api.PageProviderDefinition;
 import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
+import org.nuxeo.ecm.platform.task.TaskService;
+import org.nuxeo.runtime.api.Framework;
 
 /**
  * @author david
  */
-public class GetTasksServiceImpl implements GetTasksService {
+public class FVTasksServiceImpl implements FVTasksService {
 
   @Override
   public DocumentModelList getTasksForUser(CoreSession session, NuxeoPrincipal principal,
@@ -51,5 +54,19 @@ public class GetTasksServiceImpl implements GetTasksService {
     } else {
       return null;
     }
+  }
+
+  @Override
+  public DocumentModel requestReviewForDocument(CoreSession session, DocumentModel doc,
+      String comment) {
+    TaskService taskService = Framework.getService(TaskService.class);
+
+    return null;
+  }
+
+  @Override
+  public DocumentModel cancelReviewForDocument(CoreSession session, DocumentModel doc,
+      String comment) {
+    return null;
   }
 }

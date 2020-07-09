@@ -6,6 +6,7 @@ import static ca.firstvoices.utils.CustomSecurityConstants.RECORDERS_GROUP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import ca.firstvoices.tasks.operations.GetTasksForUserGroupOperation;
 import ca.firstvoices.security.tests.AbstractFVTest;
 import java.util.ArrayList;
 import java.util.Arrays;

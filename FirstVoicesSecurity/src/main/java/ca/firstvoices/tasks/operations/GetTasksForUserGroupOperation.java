@@ -1,9 +1,9 @@
-package ca.firstvoices.operations;
+package ca.firstvoices.tasks.operations;
 
 import static org.nuxeo.ecm.automation.core.operations.services.query.DocumentPaginatedQuery.ASC;
 import static org.nuxeo.ecm.automation.core.operations.services.query.DocumentPaginatedQuery.DESC;
 
-import ca.firstvoices.services.GetTasksService;
+import ca.firstvoices.tasks.services.FVTasksService;
 import org.nuxeo.ecm.automation.OperationException;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -46,7 +46,7 @@ public class GetTasksForUserGroupOperation {
 
   @OperationMethod
   public DocumentModelList run() throws OperationException {
-    GetTasksService service = Framework.getService(GetTasksService.class);
+    FVTasksService service = Framework.getService(FVTasksService.class);
     return service.getTasksForUser(session, session.getPrincipal(), currentPageIndex, pageSize,
         sortBy, sortOrder);
   }

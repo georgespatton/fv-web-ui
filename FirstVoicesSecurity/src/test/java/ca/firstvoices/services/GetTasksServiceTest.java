@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import ca.firstvoices.security.tests.AbstractFVTest;
+import ca.firstvoices.tasks.services.FVTasksService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -67,7 +68,7 @@ import org.nuxeo.runtime.test.runner.TargetExtensions;
 public class GetTasksServiceTest extends AbstractFVTest {
 
   @Inject
-  private GetTasksService service;
+  private FVTasksService service;
 
   @Inject
   private CoreSession session;
