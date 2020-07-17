@@ -4,15 +4,15 @@ import static org.nuxeo.ecm.automation.core.operations.services.query.DocumentPa
 import static org.nuxeo.ecm.automation.core.operations.services.query.DocumentPaginatedQuery.DESC;
 
 import ca.firstvoices.services.GetTasksService;
-import org.nuxeo.ecm.automation.OperationException;
+import java.io.IOException;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
 import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.util.StringList;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.runtime.api.Framework;
 
 /**
@@ -45,10 +45,9 @@ public class GetTasksForUserGroupOperation {
   protected StringList sortOrder;
 
   @OperationMethod
-  public DocumentModelList run() throws OperationException {
+  public Blob run() throws IOException {
     GetTasksService service = Framework.getService(GetTasksService.class);
-    return service.getTasksForUser(session, session.getPrincipal(), currentPageIndex, pageSize,
-        sortBy, sortOrder);
+    return service.getTasks(session);
   }
 
 }
