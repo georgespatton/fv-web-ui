@@ -1,6 +1,8 @@
 package ca.firstvoices.tests.mocks.services;
 
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_ALPHABET;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CATEGORIES;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CATEGORY;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CHARACTER;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_DICTIONARY;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_PHRASE;
