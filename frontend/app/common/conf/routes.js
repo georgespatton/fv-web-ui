@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import selectn from 'selectn'
 import Immutable from 'immutable'
 import ProviderHelpers from 'common/ProviderHelpers'
@@ -48,6 +48,7 @@ export const matchPath = (pathMatchArray, urlPath) => {
     if (value instanceof RegExp) {
       return value.test(currentPathArray.get(key))
     } else if (value instanceof paramMatch) {
+      // eslint-disable-next-line
       if (value.hasOwnProperty('matcher')) {
         const testMatch = value.matcher.test(currentPathArray.get(key))
 
@@ -434,11 +435,6 @@ const routes = [
     path: ['content-preview', new paramMatch('friendly_url', ANYTHING_BUT_SLASH)],
     page: <Pages.PageContent area={WORKSPACES} />,
     title: '{$pageTitle} | ' + intl.translate({ key: 'pages', default: 'Pages', case: 'first' }),
-    breadcrumbs: false,
-  },
-  {
-    path: ['test'],
-    page: <Pages.PageTest />,
     breadcrumbs: false,
   },
   {
@@ -1314,7 +1310,12 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectWordsCreate />,
+    // page: <Pages.PageDialectWordsCreate />,
+    page: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Pages.PageDialectWordsCreate />
+      </Suspense>
+    ),
     extractPaths: true,
   },
   {

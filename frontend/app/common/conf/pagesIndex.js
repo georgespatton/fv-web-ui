@@ -13,8 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import React from 'react'
 
 import PageExploreDialects from 'components/ExploreDialects'
+// const PageExploreDialects = React.lazy(() => import('components/ExploreDialects'))
 import PageExploreFamily from 'components/ExploreFamily'
 import PageExploreLanguage from 'components/ExploreLanguage'
 import PageExploreDialect from 'components/ExploreDialect'
@@ -55,7 +57,6 @@ import PageDialectLearnPhrasesByPhrasebook from 'components/Phrases/phrasesFilte
 
 import PageDialectImmersionList from 'components/Immersion'
 
-import PageTest from 'components/Test'
 import PageDebugAPI from 'components/PageDebugAPI'
 import PageDebugTypography from 'components/DebugTypography'
 import PageError from 'components/PageError'
@@ -84,7 +85,8 @@ import PageDialectBookEntryEdit from 'components/SongsStories/entry/edit'
 import PageDialectAlphabetCharacterEdit from 'components/Alphabet/edit'
 
 // CREATE
-import { default as PageDialectWordsCreate } from 'components/WordsCreateEdit/Create'
+// import PageDialectWordsCreate from 'components/WordsCreateEdit/Create'
+const PageDialectWordsCreate = React.lazy(() => import('components/WordsCreateEdit/Create'))
 import { default as CreateV2 } from 'components/WordsCreateEdit/CreateV2'
 import { default as CreateAudio } from 'components/Audio'
 import { default as PageDialectPhrasesCreate } from 'components/Phrases/Create'
@@ -133,7 +135,6 @@ import DashboardDetailTasks from 'components/DashboardDetailTasks'
 import PageMAPPhotoProject from 'components/PhotoProject'
 
 export {
-  PageTest,
   PageMAPPhotoProject,
   PageDebugAPI,
   PageDebugTypography,
