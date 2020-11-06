@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import selectn from 'selectn'
 import Immutable from 'immutable'
 import ProviderHelpers from 'common/ProviderHelpers'
@@ -8,6 +8,8 @@ import IntlService from 'common/services/IntlService'
 import * as Pages from 'common/conf/pagesIndex'
 import { ServiceShortURL } from 'common/services'
 import { WORKSPACES, SECTIONS } from 'common/Constants'
+
+import Suspender from 'components/Suspender'
 const intl = IntlService.instance
 
 /**
@@ -75,41 +77,6 @@ export class paramMatch {
   }
 }
 
-const PAGE_NOT_FOUND_TITLE =
-  '404 - ' +
-  intl.translate({
-    key: 'errors.page_not_found',
-    default: 'Page Not Found',
-    case: 'first',
-  })
-
-const PAGE_NOT_FOUND_BODY = (
-  <div>
-    <p>
-      {intl.translate({
-        key: 'errors.report_via_feedback',
-        default: 'Please report this error so that we can fix it',
-        case: 'first',
-      })}
-      .
-    </p>
-    <p>
-      {intl.translate({
-        key: 'errors.feedback_include_link',
-        default: 'Include what link or action you took to get to this page',
-      })}
-      .
-    </p>
-    <p>
-      {intl.translate({
-        key: 'thank_you!',
-        default: 'Thank You!',
-        case: 'words',
-      })}
-    </p>
-  </div>
-)
-
 // Regex helper
 const ANYTHING_BUT_SLASH = new RegExp(ProviderHelpers.regex.ANYTHING_BUT_SLASH)
 const NUMBER = new RegExp(ProviderHelpers.regex.NUMBER)
@@ -167,7 +134,11 @@ const DIALECT_LEARN_WORDS = {
       default: 'Words',
       case: 'words',
     }) + ' | {$dialect_name}',
-  page: <Pages.PageDialectLearnWords />,
+  page: (
+    <Suspender>
+      <Pages.PageDialectLearnWords />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -179,7 +150,11 @@ const DIALECT_LEARN_WORDS_ONLY_DEFAULT = {
       default: 'Words',
       case: 'words',
     }) + ' | {$dialect_name}',
-  page: <Pages.PageDialectLearnWords />,
+  page: (
+    <Suspender>
+      <Pages.PageDialectLearnWords />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -191,7 +166,11 @@ const DIALECT_LEARN_WORDS_ONLY_KIDS = {
       default: 'Words',
       case: 'words',
     }) + ' | {$dialect_name}',
-  page: <Pages.WordsCategoriesGrid.Container />,
+  page: (
+    <Suspender>
+      <Pages.WordsCategoriesGrid.Container />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -204,7 +183,11 @@ const DIALECT_LEARN_PHRASES = {
       default: 'Phrases',
       case: 'words',
     }) + ' | {$dialect_name}',
-  page: <Pages.PageDialectLearnPhrases />,
+  page: (
+    <Suspender>
+      <Pages.PageDialectLearnPhrases />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -212,7 +195,11 @@ const DIALECT_LEARN_PHRASES = {
 const DIALECT_IMMERSION_WORDS = {
   path: [...DIALECT_PATH_KIDS_OR_DEFAULT, 'immersion'],
   title: 'Immersion', // TODOSL add locale for this
-  page: <Pages.PageDialectImmersionList />,
+  page: (
+    <Suspender>
+      <Pages.PageDialectImmersionList />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -233,7 +220,12 @@ const SEARCH = {
       default: 'Search Results',
       case: 'words',
     }),
-  page: <Pages.PageSearch />,
+
+  page: (
+    <Suspender>
+      <Pages.PageSearch />
+    </Suspender>
+  ),
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
 const SEARCH_DIALECT = {
@@ -256,7 +248,11 @@ const SEARCH_DIALECT = {
       case: 'words',
     }) +
     ' | {$dialect_name} ',
-  page: <Pages.PageSearch />,
+  page: (
+    <Suspender>
+      <Pages.PageSearch />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
@@ -270,16 +266,22 @@ const REPORT_VIEW = {
       case: 'words',
     }) +
     ' | {$dialect_name}',
-  page: <Pages.PageDialectReportsView />,
+  page: (
+    <Suspender>
+      <Pages.PageDialectReportsView />
+    </Suspender>
+  ),
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],
 }
 
+// TODO: VERIFY THIS WORKS!
 // Adds a pagination route to an existing route
 const addPagination = (route) => {
   return Object.assign({}, route, {
     path: [...route.path, ...PAGINATION_PATH],
-    page: React.cloneElement(route.page, { hasPagination: true }),
+    // page: React.cloneElement(route.page, { hasPagination: true }),
+    page: <Suspender>{React.cloneElement(route.page, { hasPagination: true })}</Suspender>,
     breadcrumbPathOverride: (pathArray) => {
       return pathArray.slice(0, pathArray.length - 2)
     },
@@ -310,7 +312,11 @@ const addCategoryKids = (route) => {
       }) +
       ' | ' +
       selectn('title', route),
-    page: <Pages.KidsWordsByCategory />,
+    page: (
+      <Suspender>
+        <Pages.KidsWordsByCategory />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   })
@@ -336,7 +342,11 @@ const addBrowsePhraseBook = (route) => {
       default: 'Phrases',
       case: 'words',
     })} | {$dialect_name}`,
-    page: <Pages.PageDialectLearnPhrasesByPhrasebook />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectLearnPhrasesByPhrasebook />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   })
@@ -355,7 +365,11 @@ const addBrowsePhraseBookKids = (route) => {
       default: 'Phrases',
       case: 'words',
     })} | {$dialect_name}`,
-    page: <Pages.KidsPhrasesByPhrasebook />,
+    page: (
+      <Suspender>
+        <Pages.KidsPhrasesByPhrasebook />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   })
@@ -389,81 +403,83 @@ const routes = [
     id: 'home',
     path: [],
     alias: ['home'],
-    page: <Pages.PageHome />,
+    page: (
+      <Suspender>
+        <Pages.PageHome />
+      </Suspender>
+    ),
     title: intl.translate({ key: 'home', default: 'Home', case: 'first' }),
     breadcrumbs: false,
     frontpage: true,
-    // redirects: [
-    //   {
-    //     // For any start page value other than a dialect, simple redirect to that start page
-    //     condition: (params) => {
-    //       return (
-    //         selectn('preferences.start_page', params.props) !== undefined &&
-    //         selectn('preferences.start_page', params.props) !== 'my_dialect' &&
-    //         selectn('preferences.start_page', params.props) !== 'my_kids_dialect'
-    //       )
-    //     },
-    //     target: (params) => {
-    //       return UIHelpers.getPreferenceVal('start_page', params.props.preferences)
-    //     },
-    //   },
-    //   {
-    //     // Redirecting to a dialect (requires dialect_path to be provided)
-    //     condition: (params) => {
-    //       return selectn('preferences.primary_dialect_path', params.props) !== undefined
-    //     },
-    //     target: (params) => {
-    //       const startPage = selectn('preferences.start_page', params.props)
-    //       // const primary_dialect_path = selectn('preferences.primary_dialect_path', params.props)
-    //       return (
-    //         '/' +
-    //         (startPage === 'my_kids_dialect' ? 'kids' : 'explore') +
-    //         selectn('preferences.primary_dialect_path', params.props)
-    //       )
-    //     },
-    //   },
-    // ],
   },
   {
     id: 'dynamic_content_page',
     path: ['content', new paramMatch('friendly_url', ANYTHING_BUT_SLASH)],
-    page: <Pages.PageContent area={SECTIONS} />,
+    page: (
+      <Suspender>
+        <Pages.PageContent area={SECTIONS} />
+      </Suspender>
+    ),
     title: '{$pageTitle} | ' + intl.translate({ key: 'pages', default: 'Pages', case: 'first' }),
     breadcrumbs: false,
   },
   {
     path: ['content-preview', new paramMatch('friendly_url', ANYTHING_BUT_SLASH)],
-    page: <Pages.PageContent area={WORKSPACES} />,
+    page: (
+      <Suspender>
+        <Pages.PageContent area={WORKSPACES} />
+      </Suspender>
+    ),
     title: '{$pageTitle} | ' + intl.translate({ key: 'pages', default: 'Pages', case: 'first' }),
     breadcrumbs: false,
   },
   {
     path: ['debug', 'end-points'],
-    page: <Pages.PageDebugAPI />,
+    page: (
+      <Suspender>
+        <Pages.PageDebugAPI />
+      </Suspender>
+    ),
     breadcrumbs: false,
   },
   {
     path: ['debug', 'typography'],
-    page: <Pages.PageDebugTypography />,
+    page: (
+      <Suspender>
+        <Pages.PageDebugTypography />
+      </Suspender>
+    ),
     breadcrumbs: false,
   },
   {
     path: [new paramMatch('siteTheme', new RegExp('kids'))],
     frontpage: true,
     title: intl.translate({ key: 'kids_home', default: 'Kids Home', case: 'words' }),
-    page: <Pages.KidsHome />,
+    page: (
+      <Suspender>
+        <Pages.KidsHome />
+      </Suspender>
+    ),
   },
   {
     path: ['play'],
     title: intl.translate({ key: 'games', default: 'Games', case: 'first' }),
-    page: <Pages.PagePlay />,
+    page: (
+      <Suspender>
+        <Pages.PagePlay />
+      </Suspender>
+    ),
   },
   {
     siteTheme: WORKSPACES,
     id: 'tasks',
     path: ['tasks'],
     title: intl.translate({ key: 'tasks', default: 'Tasks', case: 'first' }),
-    page: <Pages.PageTasks />,
+    page: (
+      <Suspender>
+        <Pages.PageTasks />
+      </Suspender>
+    ),
     disableWorkspaceSectionNav: true,
     breadcrumbs: false,
   },
@@ -471,19 +487,31 @@ const routes = [
     siteTheme: WORKSPACES,
     path: ['tasks', 'users', new paramMatch('dialect', ANYTHING_BUT_SLASH)],
     title: intl.translate({ key: 'tasks', default: 'Tasks', case: 'first' }),
-    page: <Pages.PageUserTasks type="users" />,
+    page: (
+      <Suspender>
+        <Pages.PageUserTasks type="users" />
+      </Suspender>
+    ),
     breadcrumbs: false,
   },
   {
     path: ['register'],
     title: intl.translate({ key: 'register', default: 'Register', case: 'first' }),
-    page: <Pages.PageUsersRegister />,
+    page: (
+      <Suspender>
+        <Pages.PageUsersRegister />
+      </Suspender>
+    ),
   },
   {
     path: ['forgotpassword'],
     title: intl.translate({ key: 'forgot_password', default: 'Forgot Password', case: 'words' }),
     breadcrumbs: false,
-    page: <Pages.PageUsersForgotPassword />,
+    page: (
+      <Suspender>
+        <Pages.PageUsersForgotPassword />
+      </Suspender>
+    ),
   },
   {
     path: [KIDS_OR_DEFAULT],
@@ -505,7 +533,11 @@ const routes = [
       default: 'Dialect Short Url',
       case: 'words',
     }),
-    page: <ServiceShortURL />,
+    page: (
+      <Suspender>
+        <ServiceShortURL />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
   {
@@ -520,7 +552,11 @@ const routes = [
       default: 'Dialect Short Url',
       case: 'words',
     }),
-    page: <ServiceShortURL />,
+    page: (
+      <Suspender>
+        <ServiceShortURL />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
   {
@@ -531,8 +567,11 @@ const routes = [
       default: '{$siteTheme} Dialects',
       params: ['{$siteTheme}'],
     }),
-    // title: '{$siteTheme} Dialects',
-    page: <Pages.PageExploreDialects />,
+    page: (
+      <Suspender>
+        <Pages.PageExploreDialects />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
   // SEARCH
@@ -559,7 +598,11 @@ const routes = [
         default: 'Registration',
         case: 'words',
       }),
-    page: <Pages.PageUsersRegister />,
+    page: (
+      <Suspender>
+        <Pages.PageUsersRegister />
+      </Suspender>
+    ),
     disableWorkspaceSectionNav: true,
     extractPaths: true,
   },
@@ -578,7 +621,11 @@ const routes = [
         default: 'Explore',
         case: 'words',
       }),
-    page: <Pages.PageExploreFamily />,
+    page: (
+      <Suspender>
+        <Pages.PageExploreFamily />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     breadcrumbs: false,
@@ -599,7 +646,11 @@ const routes = [
         default: 'Explore',
         case: 'words',
       }),
-    page: <Pages.PageExploreLanguage />,
+    page: (
+      <Suspender>
+        <Pages.PageExploreLanguage />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     breadcrumbs: false,
@@ -623,7 +674,11 @@ const routes = [
         case: 'first',
       }) +
       ' | {$siteTheme}',
-    page: <Pages.PageExploreDialect />,
+    page: (
+      <Suspender>
+        <Pages.PageExploreDialect />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     warnings: ['multiple_dialects'],
@@ -640,7 +695,11 @@ const routes = [
       'edit',
     ],
     title: intl.translate({ key: 'edit', default: 'Edit', case: 'words' }) + ' {$dialect_name}',
-    page: <Pages.PageExploreDialectEdit />,
+    page: (
+      <Suspender>
+        <Pages.PageExploreDialectEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -660,7 +719,11 @@ const routes = [
         default: 'Learn',
         case: 'words',
       }) + ' {$dialect_name}',
-    page: <Pages.PageDialectLearn />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectLearn />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -681,7 +744,11 @@ const routes = [
         default: 'Browse Media',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectMedia />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectMedia />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -705,7 +772,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectViewMedia />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewMedia />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -735,7 +806,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectEditMedia />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectEditMedia />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -756,7 +831,11 @@ const routes = [
         default: 'Alphabet',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectViewAlphabet />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewAlphabet />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -778,7 +857,11 @@ const routes = [
         default: 'Print Alphabet',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectViewAlphabet print />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewAlphabet print />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -807,7 +890,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectViewCharacter />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewCharacter />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -843,7 +930,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectAlphabetCharacterEdit />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectAlphabetCharacterEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -863,7 +954,11 @@ const routes = [
         default: 'Games',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectPlay />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectPlay />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -892,7 +987,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageJigsawGame />,
+    page: (
+      <Suspender>
+        <Pages.PageJigsawGame />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -921,7 +1020,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageWordSearch />,
+    page: (
+      <Suspender>
+        <Pages.PageWordSearch />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -950,7 +1053,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageColouringBook />,
+    page: (
+      <Suspender>
+        <Pages.PageColouringBook />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -979,7 +1086,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageConcentration />,
+    page: (
+      <Suspender>
+        <Pages.PageConcentration />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1008,7 +1119,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PagePictureThis />,
+    page: (
+      <Suspender>
+        <Pages.PagePictureThis />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1037,7 +1152,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageHangman />,
+    page: (
+      <Suspender>
+        <Pages.PageHangman />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1066,7 +1185,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageWordscramble />,
+    page: (
+      <Suspender>
+        <Pages.PageWordscramble />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1095,7 +1218,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageQuiz />,
+    page: (
+      <Suspender>
+        <Pages.PageQuiz />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1116,7 +1243,11 @@ const routes = [
         default: 'Galleries',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectGalleries />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectGalleries />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1145,7 +1276,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectGalleryCreate />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectGalleryCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -1168,7 +1303,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectGalleryView />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectGalleryView />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1198,7 +1337,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectGalleryEdit />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectGalleryEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -1209,7 +1352,11 @@ const routes = [
         default: 'Reports',
         case: 'words',
       }) + ' | {$dialect_name}',
-    page: <Pages.PageDialectReports />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectReports />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1243,7 +1390,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name} | {$siteTheme}',
-    page: <Pages.PageDialectLearnWordsCategories />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectLearnWordsCategories />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1278,7 +1429,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name} | {$siteTheme}',
-    page: <Pages.WordsCategoriesGrid.Container />,
+    page: (
+      <Suspender>
+        <Pages.WordsCategoriesGrid.Container />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1310,41 +1465,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    // page: <Pages.PageDialectWordsCreate />,
     page: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspender>
         <Pages.PageDialectWordsCreate />
-      </Suspense>
+      </Suspender>
     ),
-    extractPaths: true,
-  },
-  {
-    path: [
-      KIDS_OR_DEFAULT,
-      'FV',
-      WORKSPACES,
-      'Data',
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      'learn',
-      'words',
-      'create2',
-    ],
-    title:
-      intl.translate({
-        key: 'create',
-        default: 'Create',
-        case: 'words',
-      }) +
-      ', ' +
-      intl.translate({
-        key: 'words',
-        default: 'Words',
-        case: 'words',
-      }) +
-      ', {$dialect_name}',
-    page: <Pages.CreateV2 />,
     extractPaths: true,
   },
   {
@@ -1360,7 +1485,11 @@ const routes = [
       'audio',
     ],
     title: 'Create Audio, {$dialect_name}',
-    page: <Pages.CreateAudio />,
+    page: (
+      <Suspender>
+        <Pages.CreateAudio />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // RECORDER
@@ -1378,7 +1507,11 @@ const routes = [
       'recorders',
     ],
     title: 'Browse Recorders, {$dialect_name}',
-    page: <Pages.RecorderBrowse />,
+    page: (
+      <Suspender>
+        <Pages.RecorderBrowse />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Recorder > Browse (pagination)
@@ -1400,7 +1533,11 @@ const routes = [
       return _pathArray
     },
     title: 'Browse Recorders, {$dialect_name}',
-    page: <Pages.RecorderBrowse hasPagination />,
+    page: (
+      <Suspender>
+        <Pages.RecorderBrowse hasPagination />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Recorder > Detail
@@ -1422,7 +1559,11 @@ const routes = [
       return _pathArray
     },
     title: 'Recorder Detail, {$dialect_name}',
-    page: <Pages.RecorderDetail />,
+    page: (
+      <Suspender>
+        <Pages.RecorderDetail />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Recorder > Create
@@ -1444,7 +1585,12 @@ const routes = [
       return _pathArray
     },
     title: 'Create Recorder, {$dialect_name}',
-    page: <Pages.RecorderCreate />,
+
+    page: (
+      <Suspender>
+        <Pages.RecorderCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Recorder > Edit
@@ -1467,7 +1613,11 @@ const routes = [
       return _pathArray
     },
     title: 'Edit Recorder, {$dialect_name}',
-    page: <Pages.RecorderEdit />,
+    page: (
+      <Suspender>
+        <Pages.RecorderEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // CONTRIBUTOR
@@ -1485,7 +1635,11 @@ const routes = [
       'contributors',
     ],
     title: 'Browse Contributors, {$dialect_name}',
-    page: <Pages.ContributorBrowse />,
+    page: (
+      <Suspender>
+        <Pages.ContributorBrowse />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Contributor > Browse (pagination)
@@ -1507,7 +1661,11 @@ const routes = [
       return _pathArray
     },
     title: 'Browse Contributors, {$dialect_name}',
-    page: <Pages.ContributorBrowse hasPagination />,
+    page: (
+      <Suspender>
+        <Pages.ContributorBrowse hasPagination />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Contributor > Detail
@@ -1529,7 +1687,11 @@ const routes = [
       return _pathArray
     },
     title: 'Contributor Detail, {$dialect_name}',
-    page: <Pages.ContributorDetail />,
+    page: (
+      <Suspender>
+        <Pages.ContributorDetail />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Contributor > Create
@@ -1551,7 +1713,11 @@ const routes = [
       return _pathArray
     },
     title: 'Create Contributor, {$dialect_name}',
-    page: <Pages.ContributorCreate />,
+    page: (
+      <Suspender>
+        <Pages.ContributorCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Contributor > Edit
@@ -1574,7 +1740,11 @@ const routes = [
       return _pathArray
     },
     title: 'Edit Contributor, {$dialect_name}',
-    page: <Pages.ContributorEdit />,
+    page: (
+      <Suspender>
+        <Pages.ContributorEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // CATEGORY
@@ -1592,7 +1762,11 @@ const routes = [
       'categories',
     ],
     title: 'Browse Categories, {$dialect_name}',
-    page: <Pages.CategoryBrowse />,
+    page: (
+      <Suspender>
+        <Pages.CategoryBrowse />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Category > Browse (pagination)
@@ -1614,7 +1788,11 @@ const routes = [
       return _pathArray
     },
     title: 'Browse Categories, {$dialect_name}',
-    page: <Pages.CategoryBrowse hasPagination />,
+    page: (
+      <Suspender>
+        <Pages.CategoryBrowse hasPagination />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Category > Detail
@@ -1636,7 +1814,11 @@ const routes = [
       return _pathArray
     },
     title: 'Category Detail, {$dialect_name}',
-    page: <Pages.CategoryDetail />,
+    page: (
+      <Suspender>
+        <Pages.CategoryDetail />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Category > Create
@@ -1658,7 +1840,11 @@ const routes = [
       return _pathArray
     },
     title: 'Create Category, {$dialect_name}',
-    page: <Pages.CategoryCreate />,
+    page: (
+      <Suspender>
+        <Pages.CategoryCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Category > Edit
@@ -1681,7 +1867,11 @@ const routes = [
       return _pathArray
     },
     title: 'Edit Category, {$dialect_name}',
-    page: <Pages.CategoryEdit />,
+    page: (
+      <Suspender>
+        <Pages.CategoryEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // PHRASEBOOK
@@ -1699,7 +1889,11 @@ const routes = [
       'phrasebooks',
     ],
     title: 'Browse Phrasebooks, {$dialect_name}',
-    page: <Pages.PhrasebookBrowse />,
+    page: (
+      <Suspender>
+        <Pages.PhrasebookBrowse />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Phrasebook > Browse (pagination)
@@ -1721,7 +1915,12 @@ const routes = [
       return _pathArray
     },
     title: 'Browse Phrasebooks, {$dialect_name}',
-    page: <Pages.PhrasebookBrowse hasPagination />,
+
+    page: (
+      <Suspender>
+        <Pages.PhrasebookBrowse hasPagination />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Phrasebook > Detail
@@ -1743,7 +1942,11 @@ const routes = [
       return _pathArray
     },
     title: 'Phrasebook Detail, {$dialect_name}',
-    page: <Pages.PhrasebookDetail />,
+    page: (
+      <Suspender>
+        <Pages.PhrasebookDetail />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Phrasebook > Create
@@ -1765,7 +1968,11 @@ const routes = [
       return _pathArray
     },
     title: 'Create Phrasebook, {$dialect_name}',
-    page: <Pages.PhrasebookCreate />,
+    page: (
+      <Suspender>
+        <Pages.PhrasebookCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   // Phrasebook > Create V1
@@ -1795,7 +2002,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectPhraseBooksCreate />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectPhraseBooksCreate />
+      </Suspender>
+    ),
   },
   // Phrasebook > Edit
   {
@@ -1817,7 +2028,11 @@ const routes = [
       return _pathArray
     },
     title: 'Edit Phrasebook, {$dialect_name}',
-    page: <Pages.PhrasebookEdit />,
+    page: (
+      <Suspender>
+        <Pages.PhrasebookEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
 
@@ -1842,7 +2057,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectViewWord />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewWord />
+      </Suspender>
+    ),
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
     extractPaths: true,
   },
@@ -1873,7 +2092,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectWordEdit />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectWordEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   DIALECT_LEARN_PHRASES,
@@ -1905,7 +2128,11 @@ const routes = [
         default: 'Phrase Categories',
         case: 'words',
       }) + ' | {$dialect_name} | {$siteTheme}',
-    page: <Pages.PhraseBooksGrid.Container />,
+    page: (
+      <Suspender>
+        <Pages.PhraseBooksGrid.Container />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1940,7 +2167,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectPhrasesCreate />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectPhrasesCreate />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -1964,7 +2195,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectViewPhrase />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectViewPhrase />
+      </Suspender>
+    ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
@@ -1995,7 +2230,11 @@ const routes = [
         case: 'words',
       }) +
       ' | {$dialect_name}',
-    page: <Pages.PageDialectPhraseEdit />,
+    page: (
+      <Suspender>
+        <Pages.PageDialectPhraseEdit />
+      </Suspender>
+    ),
     extractPaths: true,
   },
   {
@@ -2017,14 +2256,16 @@ const routes = [
         case: 'words',
       }) + ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectLearnStoriesAndSongs
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectLearnStoriesAndSongs
+          typeFilter="story"
+          typePlural={intl.translate({
+            key: 'stories',
+            default: 'Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2048,14 +2289,16 @@ const routes = [
         case: 'words',
       }) + ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectLearnStoriesAndSongs
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectLearnStoriesAndSongs
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2079,13 +2322,15 @@ const routes = [
         case: 'words',
       }) + ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectLearnStoriesAndSongs
-        typePlural={intl.translate({
-          key: 'songs_and_stories',
-          default: 'Songs and Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectLearnStoriesAndSongs
+          typePlural={intl.translate({
+            key: 'songs_and_stories',
+            default: 'Songs and Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2117,14 +2362,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectStoriesAndSongsCreate
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectStoriesAndSongsCreate
+          typeFilter="story"
+          typePlural={intl.translate({
+            key: 'stories',
+            default: 'Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2156,14 +2403,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectStoriesAndSongsCreate
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectStoriesAndSongsCreate
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2190,14 +2439,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectViewBook
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectViewBook
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2230,14 +2481,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectBookEdit
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectBookEdit
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2276,19 +2529,22 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectStoriesAndSongsBookEntryCreate
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectStoriesAndSongsBookEntryCreate
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
   },
   {
+    // TODO: DELETE?
     path: [
       KIDS_OR_DEFAULT,
       'FV',
@@ -2323,14 +2579,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectBookEntryEdit
-        typeFilter="song"
-        typePlural={intl.translate({
-          key: 'songs',
-          default: 'Songs',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectBookEntryEdit
+          typeFilter="song"
+          typePlural={intl.translate({
+            key: 'songs',
+            default: 'Songs',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2362,14 +2620,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectViewBook
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectViewBook
+          typeFilter="story"
+          typePlural={intl.translate({
+            key: 'stories',
+            default: 'Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2402,14 +2662,16 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectBookEdit
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectBookEdit
+          typeFilter="story"
+          typePlural={intl.translate({
+            key: 'stories',
+            default: 'Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
@@ -2448,98 +2710,19 @@ const routes = [
       }) +
       ' | {$dialect_name}',
     page: (
-      <Pages.PageDialectStoriesAndSongsBookEntryCreate
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
+      <Suspender>
+        <Pages.PageDialectStoriesAndSongsBookEntryCreate
+          typeFilter="story"
+          typePlural={intl.translate({
+            key: 'stories',
+            default: 'Stories',
+            case: 'words',
+          })}
+        />
+      </Suspender>
     ),
     extractPaths: true,
     redirects: [WORKSPACE_TO_SECTION_REDIRECT],
-  },
-  {
-    path: [
-      KIDS_OR_DEFAULT,
-      'FV',
-      WORKSPACES,
-      'Data',
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      'learn',
-      'stories',
-      new paramMatch('parentBookName', ANYTHING_BUT_SLASH),
-      new paramMatch('bookName', ANYTHING_BUT_SLASH),
-      'edit',
-    ],
-    title:
-      intl.translate({
-        key: 'edit_entry',
-        default: 'Edit Entry',
-        case: 'words',
-      }) +
-      ' | ' +
-      intl.translate({
-        key: 'views.pages.explore.dialect.learn.songs_stories.x_book',
-        default: '{$bookName} Book',
-        params: ['{$bookName}'],
-      }) +
-      ' | ' +
-      intl.translate({
-        key: 'stories',
-        default: 'Stories',
-        case: 'words',
-      }) +
-      ' | {$dialect_name}',
-    page: (
-      <Pages.PageDialectBookEntryEdit
-        typeFilter="story"
-        typePlural={intl.translate({
-          key: 'stories',
-          default: 'Stories',
-          case: 'words',
-        })}
-      />
-    ),
-    extractPaths: true,
-    redirects: [WORKSPACE_TO_SECTION_REDIRECT],
-  },
-  {
-    path: [
-      KIDS_OR_DEFAULT,
-      'FV',
-      WORKSPACES,
-      'Data',
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      ANYTHING_BUT_SLASH,
-      'learn',
-      'categories',
-      'create',
-    ],
-    title:
-      intl.translate({
-        key: 'create',
-        default: 'Create',
-        case: 'words',
-      }) +
-      ' | ' +
-      intl.translate({
-        key: 'category',
-        default: 'Category',
-        case: 'words',
-      }) +
-      ' | {$dialect_name}',
-    page: <Pages.PageDialectCategoryCreate />,
-    extractPaths: true,
-  },
-  {
-    path: ['404-page-not-found'],
-    title: PAGE_NOT_FOUND_TITLE,
-    page: <Pages.PageError title={PAGE_NOT_FOUND_TITLE} body={PAGE_NOT_FOUND_BODY} />,
   },
   DIALECT_IMMERSION_WORDS,
   addPagination(DIALECT_IMMERSION_WORDS),
@@ -2552,7 +2735,11 @@ const routes = [
     id: 'dashboard',
     path: ['dashboard'],
     title: intl.translate({ key: 'dashboard', default: 'Dashboard', case: 'first' }),
-    page: <Pages.Dashboard.Container />,
+    page: (
+      <Suspender>
+        <Pages.Dashboard.Container />
+      </Suspender>
+    ),
     breadcrumbs: false,
     disableWorkspaceSectionNav: true,
   },
@@ -2561,7 +2748,11 @@ const routes = [
     id: 'dashboard',
     path: ['dashboard', 'tasks'],
     title: intl.translate({ key: 'dashboard', default: 'Dashboard', case: 'first' }),
-    page: <Pages.DashboardDetailTasks.Container />,
+    page: (
+      <Suspender>
+        <Pages.DashboardDetailTasks.Container />
+      </Suspender>
+    ),
     breadcrumbs: false,
   },
   // Mentor-Apprentice Photo Project
@@ -2570,6 +2761,11 @@ const routes = [
     path: ['photo-project'],
     title: 'Mentor-Apprentice Photo Project',
     page: <Pages.PageMAPPhotoProject />,
+    // page: (
+    //   <Suspender>
+    //     <Pages.PageMAPPhotoProject />
+    //   </Suspender>
+    // ),
     breadcrumbs: false,
   },
 ]
