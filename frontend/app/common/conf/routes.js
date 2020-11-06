@@ -48,7 +48,8 @@ export const matchPath = (pathMatchArray, urlPath) => {
     if (value instanceof RegExp) {
       return value.test(currentPathArray.get(key))
     } else if (value instanceof paramMatch) {
-      if (value.hasOwnProperty('matcher')) {
+      // Note: https://eslint.org/docs/rules/no-prototype-builtins
+      if (Object.prototype.hasOwnProperty.call(value, 'matcher')) {
         const testMatch = value.matcher.test(currentPathArray.get(key))
 
         if (testMatch) {
@@ -210,7 +211,7 @@ const DIALECT_LEARN_PHRASES = {
 
 const DIALECT_IMMERSION_WORDS = {
   path: [...DIALECT_PATH_KIDS_OR_DEFAULT, 'immersion'],
-  title: 'Immersion', // TODOSL add locale for this
+  title: 'Immersion', // TODO add locale for this
   page: <Pages.PageDialectImmersionList />,
   extractPaths: true,
   redirects: [WORKSPACE_TO_SECTION_REDIRECT],

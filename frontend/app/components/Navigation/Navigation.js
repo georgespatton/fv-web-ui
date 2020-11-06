@@ -159,7 +159,8 @@ export class Navigation extends Component {
   }
 
   render() {
-    const isDialect = this.props.routeParams.hasOwnProperty('dialect_path')
+    // Note: https://eslint.org/docs/rules/no-prototype-builtins
+    const isDialect = Object.prototype.hasOwnProperty.call(this.props.routeParams, 'dialect_path')
     const computePortal = ProviderHelpers.getEntry(
       this.props.computePortal,
       this.props.routeParams.dialect_path + '/Portal'
@@ -369,12 +370,13 @@ export class Navigation extends Component {
                   label="Immersion Mode"
                 />
               </div>
-              {/* <FormControl>
-                <InputLabel>
-                  Immersion Mode
-                </InputLabel>
-                <Switch checked={this.props.currentImmersionMode === 1} onChange={() => this._handleChangeImmersion()} /> */}
-              {/* <Select
+              <FormControl>
+                <InputLabel>Immersion Mode</InputLabel>
+                <Switch
+                  checked={this.props.currentImmersionMode === 1}
+                  onChange={() => this._handleChangeImmersion()}
+                />
+                <Select
                   value={this.props.currentImmersionMode}
                   onChange={(event) => {
                     this._handleChangeImmersion(event.target.value)
@@ -388,8 +390,8 @@ export class Navigation extends Component {
                   <MenuItem value={0}>None</MenuItem>
                   <MenuItem value={1}>Immersive</MenuItem>
                   <MenuItem value={2}>Both Languages</MenuItem>
-                </Select> */}
-              {/* </FormControl> */}
+                </Select>
+              </FormControl>
               <Typography variant="body2" className={`${localePicker} Navigation__localeTitle`}>
                 <FVLabel transKey="choose_lang" defaultStr="Choose a language" transform="first" />
               </Typography>

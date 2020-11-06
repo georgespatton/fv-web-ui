@@ -62,9 +62,14 @@ function AdminMenuPresentation({ handleItemClick, tooltipTitle }) {
     // <MenuItem key="recorders" onClick={() => { handleItemClick('/recorders') }}>
     //   <FVLabel transKey="views.pages.explore.dialect.nav_recorders" defaultStr="Recorders" transform="words" />
     // </MenuItem>,
-    // <MenuItem key="immersionPortal" onClick={() => { handleItemClick('/immersion') }}>
-    //   <FVLabel transKey="views.pages.explore.dialect.immersion" defaultStr="Immersion Portal" transform="words" />
-    // </MenuItem>,
+    <MenuItem
+      key="immersionPortal"
+      onClick={() => {
+        handleItemClick('/immersion')
+      }}
+    >
+      <FVLabel transKey="views.pages.explore.dialect.immersion" defaultStr="Immersion Portal" transform="words" />
+    </MenuItem>,
   ]
   return (
     <div className="AdminMenu">
