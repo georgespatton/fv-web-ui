@@ -23,8 +23,8 @@
         <schedule id="queueRequiredJobs">
             <eventId>executeRequiredJobs</eventId>
             <eventCategory>maintenance</eventCategory>
-            <!-- every 10 minutes between 01am and 06am-->
-            <cronExpression>0 0/10 1-6 ? * *</cronExpression>
+            <!-- every 10 minutes between 01am and 05am-->
+            <cronExpression>0 0/10 1-5 ? * *</cronExpression>
             <timezone>PST</timezone>
         </schedule>
     </extension>
@@ -41,6 +41,27 @@
         <listener name="manageRequiredJobsListener" class="ca.firstvoices.maintenance.listeners.ManageRequiredJobsListener">
             <event>addToRequiredJobs</event>
             <event>removeFromRequiredJobs</event>
+        </listener>
+    </extension>
+
+    <!-- Global Jobs -->
+
+    <!-- Schedule global jobs -->
+    <!-- These general operations should run on documents regardless of the dialect -->
+    <extension target="org.nuxeo.ecm.core.scheduler.SchedulerService" point="schedule">
+        <schedule id="queueGlobalJobs">
+            <eventId>executeGlobalJobs</eventId>
+            <eventCategory>maintenance</eventCategory>
+            <!-- twice - every 15 minutes between 0530am and 0545am-->
+            <cronExpression>0 30/15 5 ? * *</cronExpression>
+            <timezone>PST</timezone>
+        </schedule>
+    </extension>
+
+    <!-- Listener will execute global jobs -->
+    <extension point="listener" target="org.nuxeo.ecm.core.event.EventServiceComponent">
+        <listener name="executeGlobalJobsListener" class="ca.firstvoices.maintenance.listeners.ExecuteGlobalJobsListener">
+            <event>executeGlobalJobs</event>
         </listener>
     </extension>
 
