@@ -36,7 +36,7 @@ import { PageError } from 'common/conf/pagesIndex'
 import '!style-loader!css-loader!./AppFrontController.css'
 import FVLabel from 'components/FVLabel'
 import HelperModeToggle from 'components/HelperModeToggle/index'
-import Link from 'components/Link'
+
 export class AppFrontController extends Component {
   PAGE_NOT_FOUND_TITLE =
     '404 - ' +
@@ -229,22 +229,11 @@ export class AppFrontController extends Component {
         toRender = (
           <div>
             {warning}
-            <ul>
-              <li>
-                <Link href="/explore/FV/sections/Data/Test/Test/ioo%E1%91%8E%E1%BA%84ij">Portal</Link>
-              </li>
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-            </ul>
             <div className="AppFrontController__inner">
               <div id="pageNavigation" className="AppFrontController__navigation row">
                 {navigation}
               </div>
               <div id="pageContainer" data-testid="pageContainer" className="AppFrontController__content">
-                <Language.Container>
-                  <LanguageDebug />
-                </Language.Container>
                 {page}
               </div>
             </div>
@@ -254,7 +243,14 @@ export class AppFrontController extends Component {
       }
     }
 
-    return toRender
+    return (
+      <Language.Container>
+        <>
+          <LanguageDebug />
+          {toRender}
+        </>
+      </Language.Container>
+    )
   }
 
   _getInitialState() {

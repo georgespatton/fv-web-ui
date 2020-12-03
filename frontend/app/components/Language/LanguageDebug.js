@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import LanguageContext from 'components/Language/LanguageContext'
+import Link from 'components/Link'
 /**
  * @summary LanguageDebug
  * @version 1.0.1
@@ -12,10 +13,22 @@ import LanguageContext from 'components/Language/LanguageContext'
  */
 
 function LanguageDebug() {
-  const value = useContext(LanguageContext)
   // eslint-disable-next-line
-  console.log('LanguageDebug', value)
-  return <div>LanguageDebug</div>
+  const value = useContext(LanguageContext)
+  return (
+    <ul>
+      <li>
+        <Link href="/explore/FV/sections/Data/Test/Test/ioo%E1%91%8E%E1%BA%84ij">iooᑎẄij</Link>
+      </li>
+      <li>
+        <Link href="/explore/FV/sections/Data/C/C/C">C</Link>
+      </li>
+
+      <li>
+        <Link href="/">Home</Link>
+      </li>
+    </ul>
+  )
 }
 // PROPTYPES
 const { node } = PropTypes
