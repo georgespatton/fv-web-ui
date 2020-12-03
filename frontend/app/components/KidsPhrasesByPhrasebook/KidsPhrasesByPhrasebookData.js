@@ -43,7 +43,7 @@ import NavigationHelpers, {
 function KidsPhrasesByPhrasebookData({ children }) {
   const [uid, setUid] = useState()
   const { routeParams } = useRoute()
-  const { computePortal, fetchPortal } = usePortal()
+  const { computePortal, cacheComputePortal, fetchPortal } = usePortal()
   const { computeDocument, fetchDocument } = useDocument()
   const { computePhrases, fetchPhrases } = usePhrases()
   const { splitWindowPath, pushWindowPath } = useWindowPath()
@@ -55,6 +55,7 @@ function KidsPhrasesByPhrasebookData({ children }) {
       key: `${routeParams.dialect_path}/Portal`,
       action: fetchPortal,
       reducer: computePortal,
+      reducerCache: cacheComputePortal,
     })
     ProviderHelpers.fetchIfMissing({ key: documentPath, action: fetchDocument, reducer: computeDocument })
   }, [])

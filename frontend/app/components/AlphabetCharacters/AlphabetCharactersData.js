@@ -28,8 +28,7 @@ function AlphabetCharactersData({ children }) {
   const alphabetPath = `${routeParams.dialect_path}/Alphabet`
   const portalPath = `${routeParams.dialect_path}/Portal`
 
-  const portalCache = selectn(portalPath, cacheComputePortal)
-  const extractComputePortal = portalCache ? portalCache : ProviderHelpers.getEntry(computePortal, portalPath)
+  const extractComputePortal = ProviderHelpers.getEntry(computePortal, portalPath, cacheComputePortal)
 
   useEffect(() => {
     ProviderHelpers.fetchIfMissing({
