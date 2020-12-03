@@ -165,10 +165,9 @@ function getDialectPathFromURLArray(urlArray) {
 }
 
 function getEntry(wordResults, path, cache) {
+  // Proabaly not an immutable object!
   const cacheData = selectn(path, cache)
   if (cacheData) {
-    // eslint-disable-next-line
-    console.log('pulling from cache!', { cache, path, cacheData })
     return cacheData
   }
 
@@ -176,6 +175,7 @@ function getEntry(wordResults, path, cache) {
     return null
   }
 
+  // Proabaly an immutable object!
   const result = wordResults.find(function wordResultsFind(entry) {
     return entry.get('id') === path
   })
