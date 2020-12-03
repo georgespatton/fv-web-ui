@@ -33,8 +33,6 @@ function AlphabetCharactersData({ children }) {
 
   useEffect(() => {
     if (cacheComputeCharacters[alphabetPath] === undefined) {
-      // eslint-disable-next-line
-      console.log('DEBUG calling fetchIfMissing')
       ProviderHelpers.fetchIfMissing(
         alphabetPath,
         fetchCharacters,
@@ -45,10 +43,7 @@ function AlphabetCharactersData({ children }) {
     }
   }, [])
 
-  const extractComputedCharacters = ProviderHelpers.getEntry(
-    computeCharacters,
-    alphabetPath /*, cacheComputeCharacters*/
-  )
+  const extractComputedCharacters = ProviderHelpers.getEntry(computeCharacters, alphabetPath, cacheComputeCharacters)
   const charactersUnprocessed = selectn('response.entries', extractComputedCharacters) || []
   useEffect(() => {
     const charactersProcessed = charactersUnprocessed.map(({ title }) => {
