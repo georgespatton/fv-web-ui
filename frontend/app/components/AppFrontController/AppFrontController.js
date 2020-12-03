@@ -28,9 +28,6 @@ import FVButton from 'components/FVButton'
 import WorkspaceSwitcher from 'components/WorkspaceSwitcher'
 import KidsNavigation from 'components/Kids/navigation'
 import Breadcrumb from 'components/Breadcrumb'
-import Language from 'components/Language'
-import LanguageDebug from 'components/Language/LanguageDebug'
-
 import { PageError } from 'common/conf/pagesIndex'
 
 import '!style-loader!css-loader!./AppFrontController.css'
@@ -243,14 +240,7 @@ export class AppFrontController extends Component {
       }
     }
 
-    return (
-      <Language.Container>
-        <>
-          <LanguageDebug />
-          {toRender}
-        </>
-      </Language.Container>
-    )
+    return toRender
   }
 
   _getInitialState() {
