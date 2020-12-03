@@ -164,10 +164,18 @@ function getDialectPathFromURLArray(urlArray) {
   return null
 }
 
-function getEntry(wordResults, path) {
+function getEntry(wordResults, path, cache) {
+  const cacheData = selectn(path, cache)
+  if (cacheData) {
+    // eslint-disable-next-line
+    console.log('pulling from cache!', { cache, path, cacheData })
+    return cacheData
+  }
+
   if (!wordResults || wordResults.isEmpty() || !path) {
     return null
   }
+
   const result = wordResults.find(function wordResultsFind(entry) {
     return entry.get('id') === path
   })

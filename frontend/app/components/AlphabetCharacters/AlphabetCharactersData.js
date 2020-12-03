@@ -21,24 +21,34 @@ import useNavigationHelpers from 'common/useNavigationHelpers'
 function AlphabetCharactersData({ children }) {
   const [characters, setCharacters] = useState([])
   const { getSearchAsObject, navigate } = useNavigationHelpers()
-  const { fetchCharacters, computeCharacters } = useCharacters()
-  const { computePortal } = usePortal()
+  const { fetchCharacters, computeCharacters, cacheComputeCharacters } = useCharacters()
+  const { computePortal, cacheComputePortal } = usePortal()
   const { routeParams } = useRoute()
   const { letter: queryLetter } = getSearchAsObject()
   const alphabetPath = `${routeParams.dialect_path}/Alphabet`
   const portalPath = `${routeParams.dialect_path}/Portal`
-  const extractComputedCharacters = ProviderHelpers.getEntry(computeCharacters, alphabetPath)
-  const extractComputePortal = ProviderHelpers.getEntry(computePortal, portalPath)
+
+  const portalCache = selectn(portalPath, cacheComputePortal)
+  const extractComputePortal = portalCache ? portalCache : ProviderHelpers.getEntry(computePortal, portalPath)
 
   useEffect(() => {
-    ProviderHelpers.fetchIfMissing(
-      alphabetPath,
-      fetchCharacters,
-      computeCharacters,
-      '&currentPageIndex=0&pageSize=100&sortOrder=asc&sortBy=fvcharacter:alphabet_order'
-    )
+    if (cacheComputeCharacters[alphabetPath] === undefined) {
+      // eslint-disable-next-line
+      console.log('DEBUG calling fetchIfMissing')
+      ProviderHelpers.fetchIfMissing(
+        alphabetPath,
+        fetchCharacters,
+        computeCharacters,
+        '&currentPageIndex=0&pageSize=100&sortOrder=asc&sortBy=fvcharacter:alphabet_order',
+        cacheComputePortal
+      )
+    }
   }, [])
 
+  const extractComputedCharacters = ProviderHelpers.getEntry(
+    computeCharacters,
+    alphabetPath /*, cacheComputeCharacters*/
+  )
   const charactersUnprocessed = selectn('response.entries', extractComputedCharacters) || []
   useEffect(() => {
     const charactersProcessed = charactersUnprocessed.map(({ title }) => {
