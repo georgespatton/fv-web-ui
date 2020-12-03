@@ -27,7 +27,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 
 import rootReducer from 'state/reducers'
 
-import localCache from 'app/state/middleware/localCache'
+import localCache from 'state/middleware/localCache'
 import { getConfiguredCache } from 'money-clip'
 
 // Views
