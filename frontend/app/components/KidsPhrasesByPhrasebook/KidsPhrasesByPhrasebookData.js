@@ -51,8 +51,12 @@ function KidsPhrasesByPhrasebookData({ children }) {
   const documentPath = `${routeParams.dialect_path}/Dictionary`
   // on load
   useEffect(() => {
-    ProviderHelpers.fetchIfMissing(`${routeParams.dialect_path}/Portal`, fetchPortal, computePortal)
-    ProviderHelpers.fetchIfMissing(documentPath, fetchDocument, computeDocument)
+    ProviderHelpers.fetchIfMissing({
+      key: `${routeParams.dialect_path}/Portal`,
+      action: fetchPortal,
+      reducer: computePortal,
+    })
+    ProviderHelpers.fetchIfMissing({ key: documentPath, action: fetchDocument, reducer: computeDocument })
   }, [])
 
   const extractComputeDocument = ProviderHelpers.getEntry(computeDocument, documentPath)

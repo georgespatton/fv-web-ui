@@ -50,7 +50,10 @@ const proxiesKeys = [
 // @key - the key to look up (or set) in the store for this action/reducer
 // @action - the action to perform if nothing found in store.
 // @reducer - the reducer to look for
-async function fetchIfMissing(key, action, reducer, actionParams) {
+async function fetchIfMissing({ action, actionParams, key, reducer, reducerCache }) {
+  if (reducerCache && reducerCache[key]) {
+    return
+  }
   if (key != undefined && !selectn('success', getEntry(reducer, key)) && typeof action === 'function') {
     await action(key, actionParams)
   }

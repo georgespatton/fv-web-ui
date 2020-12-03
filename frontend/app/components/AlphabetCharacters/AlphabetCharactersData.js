@@ -32,15 +32,13 @@ function AlphabetCharactersData({ children }) {
   const extractComputePortal = portalCache ? portalCache : ProviderHelpers.getEntry(computePortal, portalPath)
 
   useEffect(() => {
-    if (cacheComputeCharacters[alphabetPath] === undefined) {
-      ProviderHelpers.fetchIfMissing(
-        alphabetPath,
-        fetchCharacters,
-        computeCharacters,
-        '&currentPageIndex=0&pageSize=100&sortOrder=asc&sortBy=fvcharacter:alphabet_order',
-        cacheComputePortal
-      )
-    }
+    ProviderHelpers.fetchIfMissing({
+      action: fetchCharacters,
+      actionParams: '&currentPageIndex=0&pageSize=100&sortOrder=asc&sortBy=fvcharacter:alphabet_order',
+      key: alphabetPath,
+      reducer: computeCharacters,
+      reducerCache: cacheComputePortal,
+    })
   }, [])
 
   const extractComputedCharacters = ProviderHelpers.getEntry(computeCharacters, alphabetPath, cacheComputeCharacters)

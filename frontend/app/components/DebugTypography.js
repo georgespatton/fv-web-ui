@@ -24,12 +24,17 @@ function DebugTypography() {
   const { computePortal, fetchPortal } = usePortal()
   const { routeParams } = useRoute()
 
+  const portalKey = `${routeParams.dialect_path}/Portal`
   // on load
   useEffect(() => {
-    ProviderHelpers.fetchIfMissing(`${routeParams.dialect_path}/Portal`, fetchPortal, computePortal)
+    ProviderHelpers.fetchIfMissing({
+      action: fetchPortal,
+      key: portalKey,
+      reducer: computePortal,
+    })
   }, [])
 
-  const extractComputePortal = ProviderHelpers.getEntry(computePortal, `${routeParams.dialect_path}/Portal`)
+  const extractComputePortal = ProviderHelpers.getEntry(computePortal, portalKey)
   const dialectClassName = getDialectClassname(extractComputePortal)
 
   return (
