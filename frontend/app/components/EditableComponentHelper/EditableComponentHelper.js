@@ -113,9 +113,8 @@ class EditableComponentUnwrapped extends Component {
     const { property } = this.props
 
     const entity = selectn('response', this.props.computeEntity)
-
     // If still computing, return spinner
-    if (entity.isFetching) return <CircularProgress mode="indeterminate" size={20} />
+    if (!entity || entity.isFetching) return <CircularProgress mode="indeterminate" size={20} />
 
     // Get current value for field from properties
     const currentValue = selectn(property, this.state.savedValue) || selectn('properties.' + property, entity)
