@@ -25,6 +25,7 @@ import AuthenticationFilter from 'components/AuthenticationFilter'
  */
 export default class Header extends Component {
   static propTypes = {
+    children: PropTypes.node,
     backgroundImage: PropTypes.string,
     dialect: PropTypes.object,
     handleShowStats: PropTypes.func,
@@ -70,16 +71,13 @@ export default class Header extends Component {
       backgroundRepeat: 'no-repeat',
     }
 
-    // const isSection = routeParams.area === SECTIONS
-
     return (
       <div className="Header row" style={portalBackgroundStyles}>
-        <AuthenticationFilter.Container hideFromSections>
-          {isStatisticsVisible && (
+        {isStatisticsVisible && (
+          <AuthenticationFilter.Container hideFromSections>
             <PageStats handleShowStats={this.props.handleShowStats} dialectPath={routeParams.dialect_path} />
-          )}
-        </AuthenticationFilter.Container>
-
+          </AuthenticationFilter.Container>
+        )}
         {this.props.children}
       </div>
     )
