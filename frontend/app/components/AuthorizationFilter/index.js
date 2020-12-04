@@ -49,7 +49,7 @@ export default class AuthorizationFilter extends Component {
    */
   _renderHelper() {
     if (this.props.renderPartial) {
-      const children = deepAssignPropsToChildren(this.props.children, function (child) {
+      const children = deepAssignPropsToChildren(this.props.children, function(child) {
         return React.cloneElement(child, { accessDenied: true })
       })
       return <div>{children}</div>
@@ -74,11 +74,14 @@ export default class AuthorizationFilter extends Component {
       return this.props.showAuthError ? authErrorObj : null
     }
 
-    if (filter.hasOwnProperty('permission')) {
+    if (Object.prototype.hasOwnProperty.call(filter, 'permission')) {
       if (!currentUserEntityPermissions || currentUserEntityPermissions.indexOf(filter.permission) === -1) {
         return this._renderHelper()
       }
-    } else if (filter.hasOwnProperty('role') && filter.hasOwnProperty('login')) {
+    } else if (
+      Object.prototype.hasOwnProperty.call(filter, 'role') &&
+      Object.prototype.hasOwnProperty.call(filter, 'login')
+    ) {
       const acls = selectn('contextParameters.acls', filter.entity)
 
       if (acls) {
@@ -90,7 +93,7 @@ export default class AuthorizationFilter extends Component {
         }
 
         // Get the ACEs that match the required permissions
-        const filteredAceList = Immutable.fromJS(combinedAces).filter(function (entry) {
+        const filteredAceList = Immutable.fromJS(combinedAces).filter(function(entry) {
           return (
             filter.role.indexOf(entry.get('permission')) !== -1 &&
             entry.get('granted') &&
@@ -99,9 +102,9 @@ export default class AuthorizationFilter extends Component {
         })
 
         // Test ACEs against user's roles
-        const userHasRole = filteredAceList.findIndex(function (entry) {
+        const userHasRole = filteredAceList.findIndex(function(entry) {
           // Test each group/username against ACE
-          const hasRole = extendedUserGroups.findIndex(function (extendedGroupEntry) {
+          const hasRole = extendedUserGroups.findIndex(function(extendedGroupEntry) {
             return (
               entry.get('username') == extendedGroupEntry.get('name') ||
               entry.get('username') == selectn('response.id', filter.login)
@@ -121,7 +124,10 @@ export default class AuthorizationFilter extends Component {
       return this.props.showAuthError ? authErrorObj : null
     }
 
-    const combinedProps = { key: this.props.key, style: Object.assign({}, this.props.style, children.props.style) }
+    const combinedProps = {
+      key: this.props.key,
+      style: Object.assign({}, selectn('style', this.props) || {}, selectn('props.style', children) || {}),
+    }
 
     return React.cloneElement(children, combinedProps)
   }
