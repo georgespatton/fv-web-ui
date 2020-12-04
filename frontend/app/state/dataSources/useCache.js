@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { clearCacheItem as _clearCacheItem } from 'reducers/cache'
 
-function usePortal() {
+function useCache() {
   const dispatch = useDispatch()
 
   const clearCacheItem = ({ id, reducer }) => {
@@ -14,4 +14,4 @@ function usePortal() {
   }
 }
 
-export default usePortal
+export default useCache
