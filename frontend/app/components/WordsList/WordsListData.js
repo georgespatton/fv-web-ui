@@ -125,7 +125,7 @@ function WordsListData({ children }) {
     ''} ${intl.trans('words', 'Words', 'first')}`
 
   // Parse Words
-  const computedWords = ProviderHelpers.getEntry(computeWords, dictionaryKey)
+  const computedWords = ProviderHelpers.getEntry(computeWords, dictionaryId)
   const items = selectn('response.entries', computedWords)
   const metadata = selectn('response', computedWords)
 
@@ -156,7 +156,7 @@ function WordsListData({ children }) {
         queryLetter ? `&letter=${queryLetter}&starts_with_query=Document.CustomOrderQuery` : startsWithQuery
       }`
 
-      fetchWords(dictionaryKey, nql)
+      fetchWords(dictionaryId, nql)
     }
   }, [
     area,
