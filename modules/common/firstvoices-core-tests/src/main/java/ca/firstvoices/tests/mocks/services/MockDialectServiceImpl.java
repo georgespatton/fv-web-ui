@@ -16,6 +16,7 @@ import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_DIALECT;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE_FAMILY;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,12 +26,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ThreadLocalRandom;
+import org.nuxeo.common.utils.FileUtils;
+import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
+import org.nuxeo.ecm.platform.filemanager.api.FileImporterContext;
+import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 
 public class MockDialectServiceImpl implements MockDialectService {
 
@@ -175,6 +182,11 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), alphabetChars);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
+    try {
+      generateMedia(session);
+    } catch (Exception e) {
+      System.out.println("Failed to open files");
+    }
     generateFVWords(session, dialect.getPathAsString(), words, categories);
     generateFVPhrases(session, dialect.getPathAsString(), maxEntries / 2, words, phraseBooks);
     generateFVContributors(session, dialect.getPathAsString());
@@ -207,6 +219,11 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), currentAlphabet);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
+    try {
+      generateMedia(session);
+    } catch (Exception e) {
+      System.out.println("Failed to open files");
+    }
     generateFVPhrases(session, dialect.getPathAsString(), phraseEntries, currentWords, phraseBooks);
     generateFVWords(session, dialect.getPathAsString(), currentWords, categories);
     generateFVContributors(session, dialect.getPathAsString());
@@ -315,6 +332,21 @@ public class MockDialectServiceImpl implements MockDialectService {
       join.add(wordsToUse[ThreadLocalRandom.current().nextInt(0, wordsToUse.length)]);
     }
     return join.toString();
+  }
+
+  private String generateMedia(CoreSession session) throws Exception {
+    DocumentModel root = session.getRootDocument();
+    FileManager fileManagerService = null;
+    File testFile = new File(FileUtils.getResourcePathFromContext("../TestData/TestWav.wav"));
+    Blob blob = Blobs.createBlob(testFile, "audio/wav");
+    String rootPath = root.getPathAsString() + "Resources";
+    FileImporterContext context = FileImporterContext.builder(session, blob, rootPath)
+        .overwrite(true)
+        .build();
+    DocumentModel audioDoc = fileManagerService.createOrUpdateDocument(context);
+    DocumentRef ref = audioDoc.getRef();
+    session.save();
+    return null;
   }
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
