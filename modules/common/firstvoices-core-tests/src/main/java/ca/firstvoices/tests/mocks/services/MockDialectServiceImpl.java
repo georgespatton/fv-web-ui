@@ -341,22 +341,30 @@ public class MockDialectServiceImpl implements MockDialectService {
     //Generate an audio
     DocumentModel audioDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
-    //File testFile = new File(FileUtils.getResourcePathFromContext("TestData/TestWav.wav"));
-    //FileBlob fileBlob = new FileBlob(testFile, "audio/wav");
-    //audioDoc.setPropertyValue("file:content", fileBlob);
-    String audioId = audioDoc.getId();
+    File audioFile =  FileUtils.getResourceFileFromContext("nuxeo.war/mock-data-media/TestWav.wav");
+    FileBlob audioBlob = new FileBlob(audioFile, "audio/wav");
+    audioDoc.setPropertyValue("file:content", audioBlob);
+    final String audioId = audioDoc.getId();
     session.saveDocument(audioDoc);
 
     //Generate a picture
     DocumentModel pictureDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "picture", FV_PICTURE));
-    String pictureId = pictureDoc.getId();
+    File pictureFile = FileUtils
+        .getResourceFileFromContext("nuxeo.war/mock-data-media/TestPhoto.jpg");
+    FileBlob pictureBlob = new FileBlob(pictureFile, "image/jpeg");
+    pictureDoc.setPropertyValue("file:content", pictureBlob);
+    final String pictureId = pictureDoc.getId();
     session.saveDocument(pictureDoc);
 
     //Generate a video
     DocumentModel videoDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "video", FV_VIDEO));
-    String videoId = videoDoc.getId();
+    File videoFile = FileUtils
+        .getResourceFileFromContext("nuxeo.war/mock-data-media/TestVideo.mp4");
+    FileBlob videoBlob = new FileBlob(videoFile, "video/mp4");
+    videoDoc.setPropertyValue("file:content", videoBlob);
+    final String videoId = videoDoc.getId();
     session.saveDocument(videoDoc);
 
     String[] media = {audioId, pictureId, videoId};
