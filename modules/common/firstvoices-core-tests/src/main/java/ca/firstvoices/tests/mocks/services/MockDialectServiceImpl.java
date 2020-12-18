@@ -335,15 +335,7 @@ public class MockDialectServiceImpl implements MockDialectService {
 
   private String[] generateMedia(CoreSession session, String path) {
 
-    //File file = new File(workInfo.getFilePath());
-    //  FileBlob fileBlob = new FileBlob(file, workInfo.getMimeType(), workInfo.getEncoding());
-    //
-    //  DocumentModel wrapper = workInfo.getWrapper();
-    //
-    //    wrapper.setPropertyValue("file:content", fileBlob);
-
-
-    //Generate audio
+    //Generate an audio
     DocumentModel audioDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
     //File testFile = new File(FileUtils.getResourcePathFromContext("TestData/TestWav.wav"));
@@ -353,13 +345,13 @@ public class MockDialectServiceImpl implements MockDialectService {
     String audioId = audioDoc.getId();
     session.saveDocument(audioDoc);
 
-    //Generate picture
+    //Generate a picture
     DocumentModel pictureDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "picture", FV_PICTURE));
     String pictureId = pictureDoc.getId();
     session.saveDocument(pictureDoc);
 
-    //Generate video
+    //Generate a video
     DocumentModel videoDoc = createDocument(session,
         session.createDocumentModel(path + "/Resources", "video", FV_VIDEO));
     String videoId = videoDoc.getId();
@@ -367,38 +359,7 @@ public class MockDialectServiceImpl implements MockDialectService {
 
     String[] media = {audioId, pictureId, videoId};
     return media;
-
   }
-
-
-
-  private String generateAudio(CoreSession session, String path) {
-    //Generate audio
-    DocumentModel audioDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
-    //File testFile = new File(FileUtils.getResourcePathFromContext("TestData/TestWav.wav"));
-    //FileBlob fileBlob = new FileBlob(testFile, "audio/wav");
-    //audioDoc.setPropertyValue("file:content", fileBlob);
-    session.saveDocument(audioDoc);
-    return audioDoc.getId();
-  }
-
-  private String generatePicture(CoreSession session, String path) {
-    //Generate picture
-    DocumentModel pictureDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "picture", FV_PICTURE));
-    session.saveDocument(pictureDoc);
-    return pictureDoc.getId();
-  }
-
-  private String generateVideo(CoreSession session, String path)  {
-    //Generate video
-    DocumentModel videoDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "video", FV_VIDEO));
-    session.saveDocument(videoDoc);
-    return videoDoc.getId();
-  }
-
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
       String[] words, DocumentModelList categories, String[] mediaIds) {
