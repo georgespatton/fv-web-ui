@@ -1,6 +1,7 @@
 package ca.firstvoices.tests.mocks.services;
 
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_ALPHABET;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_AUDIO;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_BOOK;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_BOOKS;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_BOOK_ENTRY;
@@ -11,12 +12,15 @@ import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CONTRIBUTOR;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CONTRIBUTORS;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_DICTIONARY;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_PHRASE;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_PICTURE;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_VIDEO;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_WORD;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_DIALECT;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE_FAMILY;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +40,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.platform.filemanager.api.FileImporterContext;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 
@@ -183,7 +188,7 @@ public class MockDialectServiceImpl implements MockDialectService {
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
     try {
-      generateMedia(session);
+      generateMedia(session, dialect.getPathAsString());
     } catch (Exception e) {
       System.out.println("Failed to open files");
     }
@@ -220,7 +225,7 @@ public class MockDialectServiceImpl implements MockDialectService {
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
     try {
-      generateMedia(session);
+      generateMedia(session, dialect.getPathAsString());
     } catch (Exception e) {
       System.out.println("Failed to open files");
     }
@@ -334,19 +339,35 @@ public class MockDialectServiceImpl implements MockDialectService {
     return join.toString();
   }
 
-  private String generateMedia(CoreSession session) throws Exception {
-    DocumentModel root = session.getRootDocument();
-    FileManager fileManagerService = null;
-    File testFile = new File(FileUtils.getResourcePathFromContext("../TestData/TestWav.wav"));
-    Blob blob = Blobs.createBlob(testFile, "audio/wav");
-    String rootPath = root.getPathAsString() + "Resources";
-    FileImporterContext context = FileImporterContext.builder(session, blob, rootPath)
-        .overwrite(true)
-        .build();
-    DocumentModel audioDoc = fileManagerService.createOrUpdateDocument(context);
-    DocumentRef ref = audioDoc.getRef();
-    session.save();
-    return null;
+  private void generateMedia(CoreSession session, String path) throws Exception {
+
+    //File file = new File(workInfo.getFilePath());
+    //  FileBlob fileBlob = new FileBlob(file, workInfo.getMimeType(), workInfo.getEncoding());
+    //
+    //  DocumentModel wrapper = workInfo.getWrapper();
+    //
+    //    wrapper.setPropertyValue("file:content", fileBlob);
+
+
+    //Generate audio
+    DocumentModel audioDoc = createDocument(session,
+        session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
+    //File testFile = new File(FileUtils.getResourcePathFromContext("TestData/TestWav.wav"));
+    //FileBlob fileBlob = new FileBlob(testFile, "audio/wav");
+    audioDoc.setPropertyValue("fvm:acknowledgement", "acknowledgement goes here");
+    //audioDoc.setPropertyValue("file:content", fileBlob);
+    session.saveDocument(audioDoc);
+
+    //Generate picture
+    DocumentModel pictureDoc = createDocument(session,
+        session.createDocumentModel(path + "/Resources", "picture", FV_PICTURE));
+    session.saveDocument(pictureDoc);
+
+    //Generate video
+    DocumentModel videoDoc = createDocument(session,
+        session.createDocumentModel(path + "/Resources", "video", FV_VIDEO));
+    session.saveDocument(videoDoc);
+
   }
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
