@@ -88,7 +88,7 @@ public class CleanCategoryReferencesTest extends AbstractTestDataCreatorTest {
     categories.add(category);
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1"}, categories);
+        session, dialect.getPathAsString(), new String[]{"NewWord1"}, categories, null);
 
     phraseBook = session.createDocument(
         session.createDocumentModel(phraseBooksFolder.getPathAsString(), "testPhrasebook", FV_CATEGORY));
@@ -101,7 +101,7 @@ public class CleanCategoryReferencesTest extends AbstractTestDataCreatorTest {
     phrase_books.add(phraseBook2);
 
     phrases = mockDialectService.generateFVPhrases(
-        session, dialect.getPathAsString(), 1, new String[]{"New Phrase Book"}, phrase_books);
+        session, dialect.getPathAsString(), 1, new String[]{"New Phrase Book"}, phrase_books, null);
 
     // generateFVPhrases will pick a random phrase book. We want both assigned.
     DocumentModel phrase1 = phrases.get(0);

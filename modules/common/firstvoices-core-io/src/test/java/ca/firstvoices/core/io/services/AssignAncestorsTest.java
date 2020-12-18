@@ -77,7 +77,7 @@ public class AssignAncestorsTest extends AbstractTestDataCreatorTest {
     languageFamily = dataCreator.getReference(session, "testLanguageFamily");
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null);
+        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null, null);
   }
 
   @Test

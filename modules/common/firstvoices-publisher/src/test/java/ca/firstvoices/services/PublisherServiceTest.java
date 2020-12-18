@@ -101,7 +101,7 @@ public class PublisherServiceTest extends AbstractTestDataCreatorTest {
     String[] wordsArray = new String[]{"NewWord1", "NewWord2", "NewWord3", "NewWord4", "NewWord5"};
 
     words =
-        mockDialectService.generateFVWords(session, dialect.getPathAsString(), wordsArray, null);
+        mockDialectService.generateFVWords(session, dialect.getPathAsString(), wordsArray, null, null);
 
     // Transition 2 words to states other than new
     words.get(0).followTransition(ENABLE_TRANSITION);
@@ -112,6 +112,7 @@ public class PublisherServiceTest extends AbstractTestDataCreatorTest {
         dialect.getPathAsString(),
         2,
         wordsArray,
+        null,
         null);
 
     // Set publication target

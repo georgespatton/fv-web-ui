@@ -51,7 +51,7 @@ public class DialectUtilsTest extends AbstractTestDataCreatorTest {
     dialect = dataCreator.getReference(session, "testDialect");
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null);
+        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null, null);
   }
 
   @After

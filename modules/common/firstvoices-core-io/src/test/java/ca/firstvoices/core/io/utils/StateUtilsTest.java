@@ -45,6 +45,7 @@ public class StateUtilsTest extends AbstractTestDataCreatorTest {
     words = mockDialectService.generateFVWords(session,
         dialect.getPathAsString(),
         new String[]{"NewWord1"},
+        null,
         null);
   }
 

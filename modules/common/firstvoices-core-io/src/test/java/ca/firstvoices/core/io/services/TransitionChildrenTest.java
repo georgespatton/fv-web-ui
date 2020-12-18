@@ -76,7 +76,7 @@ public class TransitionChildrenTest extends AbstractTestDataCreatorTest {
     dictionary = session.getChild(dialect.getRef(), FV_DICTIONARY_NAME);
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1", "NewWord2", "NewWord3"}, null);
+        session, dialect.getPathAsString(), new String[]{"NewWord1", "NewWord2", "NewWord3"}, null, null);
   }
 
   @Test

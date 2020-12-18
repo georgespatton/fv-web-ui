@@ -187,10 +187,11 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), alphabetChars);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
-    generateFVWords(session, dialect.getPathAsString(), words, categories);
-    generateFVPhrases(session, dialect.getPathAsString(), maxEntries / 2, words, phraseBooks);
-    generateFVContributors(session, dialect.getPathAsString());
     String[] mediaIds = generateMedia(session, dialect.getPathAsString());
+    generateFVWords(session, dialect.getPathAsString(), words, categories, mediaIds);
+    generateFVPhrases(session, dialect.getPathAsString(), maxEntries / 2, words,
+            phraseBooks, mediaIds);
+    generateFVContributors(session, dialect.getPathAsString());
     generateFVSongs(session, dialect.getPathAsString(), 5, words, mediaIds);
     generateFVStories(session, dialect.getPathAsString(), 5, words, mediaIds);
 
@@ -220,10 +221,11 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), currentAlphabet);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
-    generateFVPhrases(session, dialect.getPathAsString(), phraseEntries, currentWords, phraseBooks);
-    generateFVWords(session, dialect.getPathAsString(), currentWords, categories);
-    generateFVContributors(session, dialect.getPathAsString());
     String[] mediaIds = generateMedia(session, dialect.getPathAsString());
+    generateFVWords(session, dialect.getPathAsString(), currentWords, categories, mediaIds);
+    generateFVPhrases(session, dialect.getPathAsString(), phraseEntries, currentWords,
+        phraseBooks, mediaIds);
+    generateFVContributors(session, dialect.getPathAsString());
     generateFVSongs(session, dialect.getPathAsString(), 5, currentWords, mediaIds);
     generateFVStories(session, dialect.getPathAsString(), 5, currentWords, mediaIds);
 
@@ -399,7 +401,7 @@ public class MockDialectServiceImpl implements MockDialectService {
 
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
-      String[] words, DocumentModelList categories) {
+      String[] words, DocumentModelList categories, String[] mediaIds) {
     //Generate word documents and set appropriate properties
     String[] samplePartsOfSpeech = {"noun", "pronoun", "adjective", "verb", "adverb"};
     DocumentModelList fvWords = new DocumentModelListImpl();
@@ -417,6 +419,14 @@ public class MockDialectServiceImpl implements MockDialectService {
       wordDoc.setPropertyValue("fv-word:part_of_speech",
           samplePartsOfSpeech[ThreadLocalRandom.current().nextInt(0, samplePartsOfSpeech.length)]);
       wordDoc.setPropertyValue("fv-word:pronunciation", wordDoc.getName() + " pronunciation");
+
+      //attach media documents
+      String[] audioArr = {mediaIds[0]};
+      wordDoc.setPropertyValue("fv:related_audio", audioArr);
+      String[] pictureArr = {mediaIds[1]};
+      wordDoc.setPropertyValue("fv:related_pictures", pictureArr);
+      String[] videoArr = {mediaIds[2]};
+      wordDoc.setPropertyValue("fv:related_videos", videoArr);
 
       //Makes the word available in kids portal with 1/2 chance
       if (ThreadLocalRandom.current().nextInt(0, 2) == 0) {
@@ -441,7 +451,7 @@ public class MockDialectServiceImpl implements MockDialectService {
   }
 
   public DocumentModelList generateFVPhrases(CoreSession session, String path, int phraseEntries,
-      String[] wordsToUse, DocumentModelList phraseBooks) {
+      String[] wordsToUse, DocumentModelList phraseBooks, String[] mediaIds) {
     //Generate phrase documents
     DocumentModelList fvPhrases = new DocumentModelListImpl();
 
@@ -457,6 +467,14 @@ public class MockDialectServiceImpl implements MockDialectService {
       definitionEntry.put(LANGUAGE, ENGLISH);
       definition.add(definitionEntry);
       phraseDoc.setPropertyValue("fv:definitions", definition);
+
+      //attach media documents
+      String[] audioArr = {mediaIds[0]};
+      phraseDoc.setPropertyValue("fv:related_audio", audioArr);
+      String[] pictureArr = {mediaIds[1]};
+      phraseDoc.setPropertyValue("fv:related_pictures", pictureArr);
+      String[] videoArr = {mediaIds[2]};
+      phraseDoc.setPropertyValue("fv:related_videos", videoArr);
 
       if (phraseBooks != null) {
         String randomPhraseBook = phraseBooks
