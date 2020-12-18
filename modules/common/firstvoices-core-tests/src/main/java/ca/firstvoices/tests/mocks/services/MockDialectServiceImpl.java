@@ -13,6 +13,7 @@ import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_CONTRIBUTORS;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_DICTIONARY;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_PHRASE;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_PICTURE;
+import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_RESOURCES;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_VIDEO;
 import static ca.firstvoices.data.schemas.DialectTypesConstants.FV_WORD;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_DIALECT;
@@ -305,6 +306,8 @@ public class MockDialectServiceImpl implements MockDialectService {
         session.createDocumentModel(dialect.getPathAsString(), "Contributors", FV_CONTRIBUTORS));
     createDocument(session,
         session.createDocumentModel(dialect.getPathAsString(), "Stories & Songs", FV_BOOKS));
+    createDocument(session,
+        session.createDocumentModel(dialect.getPathAsString(), "Resources", FV_RESOURCES));
 
     return dialect;
   }
@@ -340,7 +343,6 @@ public class MockDialectServiceImpl implements MockDialectService {
         session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
     //File testFile = new File(FileUtils.getResourcePathFromContext("TestData/TestWav.wav"));
     //FileBlob fileBlob = new FileBlob(testFile, "audio/wav");
-    audioDoc.setPropertyValue("fvm:acknowledgement", "acknowledgement goes here");
     //audioDoc.setPropertyValue("file:content", fileBlob);
     String audioId = audioDoc.getId();
     session.saveDocument(audioDoc);
@@ -382,12 +384,14 @@ public class MockDialectServiceImpl implements MockDialectService {
       wordDoc.setPropertyValue("fv-word:pronunciation", wordDoc.getName() + " pronunciation");
 
       //attach media documents
-      String[] audioArr = {mediaIds[0]};
-      wordDoc.setPropertyValue("fv:related_audio", audioArr);
-      String[] pictureArr = {mediaIds[1]};
-      wordDoc.setPropertyValue("fv:related_pictures", pictureArr);
-      String[] videoArr = {mediaIds[2]};
-      wordDoc.setPropertyValue("fv:related_videos", videoArr);
+      if (mediaIds != null) {
+        String[] audioArr = {mediaIds[0]};
+        wordDoc.setPropertyValue("fv:related_audio", audioArr);
+        String[] pictureArr = {mediaIds[1]};
+        wordDoc.setPropertyValue("fv:related_pictures", pictureArr);
+        String[] videoArr = {mediaIds[2]};
+        wordDoc.setPropertyValue("fv:related_videos", videoArr);
+      }
 
       //Makes the word available in kids portal with 1/2 chance
       if (ThreadLocalRandom.current().nextInt(0, 2) == 0) {
@@ -430,12 +434,14 @@ public class MockDialectServiceImpl implements MockDialectService {
       phraseDoc.setPropertyValue("fv:definitions", definition);
 
       //attach media documents
-      String[] audioArr = {mediaIds[0]};
-      phraseDoc.setPropertyValue("fv:related_audio", audioArr);
-      String[] pictureArr = {mediaIds[1]};
-      phraseDoc.setPropertyValue("fv:related_pictures", pictureArr);
-      String[] videoArr = {mediaIds[2]};
-      phraseDoc.setPropertyValue("fv:related_videos", videoArr);
+      if (mediaIds != null) {
+        String[] audioArr = {mediaIds[0]};
+        phraseDoc.setPropertyValue("fv:related_audio", audioArr);
+        String[] pictureArr = {mediaIds[1]};
+        phraseDoc.setPropertyValue("fv:related_pictures", pictureArr);
+        String[] videoArr = {mediaIds[2]};
+        phraseDoc.setPropertyValue("fv:related_videos", videoArr);
+      }
 
       if (phraseBooks != null) {
         String randomPhraseBook = phraseBooks
@@ -540,10 +546,12 @@ public class MockDialectServiceImpl implements MockDialectService {
       bookDoc.setPropertyValue("fvbook:introduction", introduction);
 
       //attach media documents
-      String[] audioArr = {mediaIds[0]};
-      bookDoc.setPropertyValue("fv:related_audio", audioArr);
-      String[] pictureArr = {mediaIds[1]};
-      bookDoc.setPropertyValue("fv:related_pictures", pictureArr);
+      if (mediaIds != null) {
+        String[] audioArr = {mediaIds[0]};
+        bookDoc.setPropertyValue("fv:related_audio", audioArr);
+        String[] pictureArr = {mediaIds[1]};
+        bookDoc.setPropertyValue("fv:related_pictures", pictureArr);
+      }
 
       ArrayList<Map<String, String>> introductionTranslation = new ArrayList<>();
       Map<String, String> introductionTranslationEntry = new HashMap<>();
