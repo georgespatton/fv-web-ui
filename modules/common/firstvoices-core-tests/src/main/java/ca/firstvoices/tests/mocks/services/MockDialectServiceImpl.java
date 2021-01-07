@@ -21,7 +21,6 @@ import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE;
 import static ca.firstvoices.data.schemas.DomainTypesConstants.FV_LANGUAGE_FAMILY;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,18 +31,13 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ThreadLocalRandom;
 import org.nuxeo.common.utils.FileUtils;
-import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
-import org.nuxeo.ecm.platform.filemanager.api.FileImporterContext;
-import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 
 public class MockDialectServiceImpl implements MockDialectService {
 
@@ -367,8 +361,7 @@ public class MockDialectServiceImpl implements MockDialectService {
     final String videoId = videoDoc.getId();
     session.saveDocument(videoDoc);
 
-    String[] media = {audioId, pictureId, videoId};
-    return media;
+    return new String[]{audioId, pictureId, videoId};
   }
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
