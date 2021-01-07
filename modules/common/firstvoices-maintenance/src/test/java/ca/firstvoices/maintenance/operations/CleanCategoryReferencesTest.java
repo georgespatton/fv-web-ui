@@ -24,7 +24,6 @@ import org.nuxeo.ecm.automation.test.AutomationFeature;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.trash.TrashService;
 import org.nuxeo.ecm.core.test.CoreFeature;
@@ -88,7 +87,7 @@ public class CleanCategoryReferencesTest extends AbstractTestDataCreatorTest {
     categories.add(category);
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1"}, categories, null);
+        session, dialect.getPathAsString(), new String[]{"NewWord1"}, categories);
 
     phraseBook = session.createDocument(
         session.createDocumentModel(phraseBooksFolder.getPathAsString(), "testPhrasebook", FV_CATEGORY));
@@ -101,7 +100,7 @@ public class CleanCategoryReferencesTest extends AbstractTestDataCreatorTest {
     phrase_books.add(phraseBook2);
 
     phrases = mockDialectService.generateFVPhrases(
-        session, dialect.getPathAsString(), 1, new String[]{"New Phrase Book"}, phrase_books, null);
+        session, dialect.getPathAsString(), 1, new String[]{"New Phrase Book"}, phrase_books);
 
     // generateFVPhrases will pick a random phrase book. We want both assigned.
     DocumentModel phrase1 = phrases.get(0);

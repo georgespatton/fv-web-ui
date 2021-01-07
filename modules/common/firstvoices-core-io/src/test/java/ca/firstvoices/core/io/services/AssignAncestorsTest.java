@@ -21,7 +21,6 @@
 package ca.firstvoices.core.io.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import ca.firstvoices.testUtil.AbstractTestDataCreatorTest;
@@ -34,7 +33,6 @@ import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.test.DefaultRepositoryInit;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
@@ -77,7 +75,7 @@ public class AssignAncestorsTest extends AbstractTestDataCreatorTest {
     languageFamily = dataCreator.getReference(session, "testLanguageFamily");
 
     words = mockDialectService.generateFVWords(
-        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null, null);
+        session, dialect.getPathAsString(), new String[]{"NewWord1"}, null);
   }
 
   @Test

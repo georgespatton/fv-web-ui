@@ -182,13 +182,13 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), alphabetChars);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
-    String[] mediaIds = generateMedia(session, dialect.getPathAsString());
-    generateFVWords(session, dialect.getPathAsString(), words, categories, mediaIds);
+    generateMedia(session, dialect.getPathAsString());
+    generateFVWords(session, dialect.getPathAsString(), words, categories);
     generateFVPhrases(session, dialect.getPathAsString(), maxEntries / 2, words,
-            phraseBooks, mediaIds);
+            phraseBooks);
     generateFVContributors(session, dialect.getPathAsString());
-    generateFVSongs(session, dialect.getPathAsString(), 5, words, mediaIds);
-    generateFVStories(session, dialect.getPathAsString(), 5, words, mediaIds);
+    generateFVSongs(session, dialect.getPathAsString(), 5, words);
+    generateFVStories(session, dialect.getPathAsString(), 5, words);
 
     return dialect;
 
@@ -216,13 +216,13 @@ public class MockDialectServiceImpl implements MockDialectService {
     generateFVCharacters(session, dialect.getPathAsString(), currentAlphabet);
     DocumentModelList categories = generateFVCategories(session, dialect.getPathAsString());
     DocumentModelList phraseBooks = generateFVPhraseBooks(session, dialect.getPathAsString());
-    String[] mediaIds = generateMedia(session, dialect.getPathAsString());
-    generateFVWords(session, dialect.getPathAsString(), currentWords, categories, mediaIds);
+    generateMedia(session, dialect.getPathAsString());
+    generateFVWords(session, dialect.getPathAsString(), currentWords, categories);
     generateFVPhrases(session, dialect.getPathAsString(), phraseEntries, currentWords,
-        phraseBooks, mediaIds);
+        phraseBooks);
     generateFVContributors(session, dialect.getPathAsString());
-    generateFVSongs(session, dialect.getPathAsString(), 5, currentWords, mediaIds);
-    generateFVStories(session, dialect.getPathAsString(), 5, currentWords, mediaIds);
+    generateFVSongs(session, dialect.getPathAsString(), 5, currentWords);
+    generateFVStories(session, dialect.getPathAsString(), 5, currentWords);
 
     return dialect;
 
@@ -330,42 +330,39 @@ public class MockDialectServiceImpl implements MockDialectService {
     return join.toString();
   }
 
-  private String[] generateMedia(CoreSession session, String path) {
+  private void generateMedia(CoreSession session, String path) {
+
+    String resourcesFolder = path + "/Resources";
 
     //Generate an audio
     DocumentModel audioDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "audio", FV_AUDIO));
+        session.createDocumentModel(resourcesFolder, "audio", FV_AUDIO));
     File audioFile =  FileUtils.getResourceFileFromContext("nuxeo.war/mock-data-media/TestWav.wav");
     FileBlob audioBlob = new FileBlob(audioFile, "audio/wav");
     audioDoc.setPropertyValue("file:content", audioBlob);
-    final String audioId = audioDoc.getId();
     session.saveDocument(audioDoc);
 
     //Generate a picture
     DocumentModel pictureDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "picture", FV_PICTURE));
+        session.createDocumentModel(resourcesFolder, "picture", FV_PICTURE));
     File pictureFile = FileUtils
         .getResourceFileFromContext("nuxeo.war/mock-data-media/TestPhoto.jpg");
     FileBlob pictureBlob = new FileBlob(pictureFile, "image/jpeg");
     pictureDoc.setPropertyValue("file:content", pictureBlob);
-    final String pictureId = pictureDoc.getId();
     session.saveDocument(pictureDoc);
 
     //Generate a video
     DocumentModel videoDoc = createDocument(session,
-        session.createDocumentModel(path + "/Resources", "video", FV_VIDEO));
+        session.createDocumentModel(resourcesFolder, "video", FV_VIDEO));
     File videoFile = FileUtils
         .getResourceFileFromContext("nuxeo.war/mock-data-media/TestVideo.mp4");
     FileBlob videoBlob = new FileBlob(videoFile, "video/mp4");
     videoDoc.setPropertyValue("file:content", videoBlob);
-    final String videoId = videoDoc.getId();
     session.saveDocument(videoDoc);
-
-    return new String[]{audioId, pictureId, videoId};
   }
 
   public DocumentModelList generateFVWords(CoreSession session, String path,
-      String[] words, DocumentModelList categories, String[] mediaIds) {
+      String[] words, DocumentModelList categories) {
     //Generate word documents and set appropriate properties
     String[] samplePartsOfSpeech = {"noun", "pronoun", "adjective", "verb", "adverb"};
     DocumentModelList fvWords = new DocumentModelListImpl();
@@ -384,15 +381,7 @@ public class MockDialectServiceImpl implements MockDialectService {
           samplePartsOfSpeech[ThreadLocalRandom.current().nextInt(0, samplePartsOfSpeech.length)]);
       wordDoc.setPropertyValue("fv-word:pronunciation", wordDoc.getName() + " pronunciation");
 
-      //attach media documents
-      if (mediaIds != null) {
-        String[] audioArr = {mediaIds[0]};
-        wordDoc.setPropertyValue("fv:related_audio", audioArr);
-        String[] pictureArr = {mediaIds[1]};
-        wordDoc.setPropertyValue("fv:related_pictures", pictureArr);
-        String[] videoArr = {mediaIds[2]};
-        wordDoc.setPropertyValue("fv:related_videos", videoArr);
-      }
+      setMedia(session, path, wordDoc);
 
       //Makes the word available in kids portal with 1/2 chance
       if (ThreadLocalRandom.current().nextInt(0, 2) == 0) {
@@ -417,7 +406,7 @@ public class MockDialectServiceImpl implements MockDialectService {
   }
 
   public DocumentModelList generateFVPhrases(CoreSession session, String path, int phraseEntries,
-      String[] wordsToUse, DocumentModelList phraseBooks, String[] mediaIds) {
+      String[] wordsToUse, DocumentModelList phraseBooks) {
     //Generate phrase documents
     DocumentModelList fvPhrases = new DocumentModelListImpl();
 
@@ -434,15 +423,7 @@ public class MockDialectServiceImpl implements MockDialectService {
       definition.add(definitionEntry);
       phraseDoc.setPropertyValue("fv:definitions", definition);
 
-      //attach media documents
-      if (mediaIds != null) {
-        String[] audioArr = {mediaIds[0]};
-        phraseDoc.setPropertyValue("fv:related_audio", audioArr);
-        String[] pictureArr = {mediaIds[1]};
-        phraseDoc.setPropertyValue("fv:related_pictures", pictureArr);
-        String[] videoArr = {mediaIds[2]};
-        phraseDoc.setPropertyValue("fv:related_videos", videoArr);
-      }
+      setMedia(session, path, phraseDoc);
 
       if (phraseBooks != null) {
         String randomPhraseBook = phraseBooks
@@ -514,17 +495,17 @@ public class MockDialectServiceImpl implements MockDialectService {
   }
 
   private DocumentModelList generateFVSongs(CoreSession session, String path, int songEntries,
-      String[] wordsToUse, String[] mediaIds) {
-    return createBook(session, path, "song", wordsToUse, songEntries, mediaIds);
+      String[] wordsToUse) {
+    return createBook(session, path, "song", wordsToUse, songEntries);
   }
 
   private DocumentModelList generateFVStories(CoreSession session, String path, int storyEntries,
-      String[] wordsToUse, String[] mediaIds) {
-    return createBook(session, path, "story", wordsToUse, storyEntries, mediaIds);
+      String[] wordsToUse) {
+    return createBook(session, path, "story", wordsToUse, storyEntries);
   }
 
   private DocumentModelList createBook(CoreSession session, String path,
-      String type, String[] wordsToUse, int numBooks, String[] mediaIds) {
+      String type, String[] wordsToUse, int numBooks) {
     DocumentModelList fvBooks = new DocumentModelListImpl();
     //Generate a book of specified type
     for (int i = 0; i < numBooks; i++) {
@@ -547,12 +528,7 @@ public class MockDialectServiceImpl implements MockDialectService {
       bookDoc.setPropertyValue("fvbook:introduction", introduction);
 
       //attach media documents
-      if (mediaIds != null) {
-        String[] audioArr = {mediaIds[0]};
-        bookDoc.setPropertyValue("fv:related_audio", audioArr);
-        String[] pictureArr = {mediaIds[1]};
-        bookDoc.setPropertyValue("fv:related_pictures", pictureArr);
-      }
+      setMedia(session, path, bookDoc);
 
       ArrayList<Map<String, String>> introductionTranslation = new ArrayList<>();
       Map<String, String> introductionTranslationEntry = new HashMap<>();
@@ -592,4 +568,33 @@ public class MockDialectServiceImpl implements MockDialectService {
 
     return fvBooks;
   }
+
+  private void setMedia(CoreSession session, String path,
+      DocumentModel entry) {
+
+    // Get audio files and set on property
+    DocumentModelList audio = session
+        .getChildren(new PathRef(path + "/Resources"), FV_AUDIO);
+
+    if (!audio.isEmpty()) {
+      entry.setPropertyValue("fv:related_audio", new String[]{audio.get(0).getId()});
+    }
+
+    // Get images and set on property
+    DocumentModelList pictures = session
+        .getChildren(new PathRef(path + "/Resources"), FV_PICTURE);
+
+    if (!pictures.isEmpty()) {
+      entry.setPropertyValue("fv:related_pictures", new String[]{pictures.get(0).getId()});
+    }
+
+    // Get videos and set on property
+    DocumentModelList videos = session
+        .getChildren(new PathRef(path + "/Resources"), FV_VIDEO);
+
+    if (!videos.isEmpty()) {
+      entry.setPropertyValue("fv:related_videos", new String[]{videos.get(0).getId()});
+    }
+  }
+
 }
