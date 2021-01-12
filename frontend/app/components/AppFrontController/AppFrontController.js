@@ -130,8 +130,22 @@ export class AppFrontController extends Component {
     // Most components make network requests on componentDidMount so we end up
     // with duplicate & unneccessary network requests being fired
     const { matchedPage, routeParams } = this.props
+
     const matchedPageUpdated = is(matchedPage, prevProps.matchedPage) === false
     const siteThemeUpdated = selectn('siteTheme', routeParams) !== selectn('siteTheme', prevProps.routeParams)
+
+    // Version 2
+    // ============================================================
+    if (matchedPage && matchedPage.get('version') === 2 && (matchedPageUpdated || siteThemeUpdated)) {
+      this.setState({
+        isLoading: false,
+        version: 2,
+        page: matchedPage.get('page').toJS(),
+      })
+    }
+
+    // Version 1
+    // ============================================================
     // View during user checking, pre routing
     let isLoading = false
     if (matchedPage === undefined || this.props.localeLoading) {
@@ -140,7 +154,7 @@ export class AppFrontController extends Component {
 
     const isFrontPage = !matchedPage ? false : matchedPage.get('frontpage')
 
-    if (matchedPage && (matchedPageUpdated || siteThemeUpdated)) {
+    if (matchedPage && matchedPage.get('version') !== 2 && (matchedPageUpdated || siteThemeUpdated)) {
       let page
       let navigation
       // Note: https://eslint.org/docs/rules/no-prototype-builtins
@@ -204,13 +218,21 @@ export class AppFrontController extends Component {
         print,
         navigation,
         warning,
+        version: 1,
       })
     }
   }
 
   render() {
-    const { isLoading, page, print, warning, navigation } = this.state
+    const { isLoading, version, page, print, warning, navigation } = this.state
+    // Version 2
+    // ============================================================
+    if (version === 2) {
+      return <Suspender>{page}</Suspender>
+    }
 
+    // Version 1
+    // ============================================================
     let toRender = null
     if (isLoading) {
       // Note: We could avoid showing this "Loading..." message if
