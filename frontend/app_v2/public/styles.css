@@ -1,0 +1,19 @@
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: aliceblue;
+}
+
+/* HEADER */
+.Header {
+  display: flex;
+  padding: 1rem;
+}
+.Header__nav {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.Header__navLinks {
+  margin: 1rem;
+}
