@@ -305,8 +305,8 @@ For example, downgrading a rule to a warning instead of an error.
 We are in the process of rewriting the codebase and are using Webpack's Federated Modules to slowly transition the site.
 
 You will now need to run both servers when developing locally:
-- V1: from this directory, start the server as normal e.g: `npm run start`
-- V2: from the `./app_v2` directory run `npm run start`
+- V1: from this directory, start the server as normal e.g: `npm run start`. V1 should be at `http://0.0.0.0:3001`
+- V2: from the `./app_v2` directory run `npm run start`. V2 is at `http://0.0.0.0:3002`
 
 
 ## Licensing
