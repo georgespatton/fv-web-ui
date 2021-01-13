@@ -26,6 +26,7 @@ import store from 'state/store'
 
 // Views
 import AppWrapper from 'components/AppWrapper'
+import Suspender from 'common/Suspender'
 import Login from 'components/Login'
 
 // Sentry
@@ -36,6 +37,7 @@ Sentry.init({
 
 import 'normalize.css'
 import './assets/stylesheets/main.less'
+const Header = React.lazy(() => import('app_v2/HeaderContainer'))
 
 const context = {
   providedState: {
@@ -53,10 +55,15 @@ const context = {
 // https://github.com/facebook/react/issues/12700
 render(
   <Provider store={store}>
-    <Login />
+    <Suspender>
+      <Header>
+        <Login />
+      </Header>
+    </Suspender>
   </Provider>,
-  document.getElementById('login')
+  document.getElementById('pageNavigation')
 )
+
 // Carry on as usual
 render(
   <Provider store={store}>
