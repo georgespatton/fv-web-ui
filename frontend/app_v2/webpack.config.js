@@ -33,6 +33,7 @@ const config = {
               import: true,
             },
           },
+          'postcss-loader',
         ],
       },
     ],
