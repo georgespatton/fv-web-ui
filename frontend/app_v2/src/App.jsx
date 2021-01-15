@@ -1,10 +1,10 @@
-import React, {Suspense} from 'react'
+import React from 'react'
 import Header from 'components/Header'
-import TestPresentation from 'app_v1/TestPresentation'
+// import Something from 'app_v1/Something'
+
 function App() {
   return (
     <div className="AppV2">
-      <Suspense><TestPresentation /></Suspense>
       <Header.Container className="AppV2__header" />
     </div>
   )
