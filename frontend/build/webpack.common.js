@@ -114,13 +114,6 @@ module.exports = (env) => ({
   },
 
   /**
-   * Optimizations
-   */
-  optimization: {
-    runtimeChunk: 'multiple',
-  },
-
-  /**
    * The top-level output key contains set of options instructing
    * webpack on how and where it should output your bundles,
    * assets and anything else you bundle or load with webpack.
@@ -189,7 +182,7 @@ module.exports = (env) => ({
       filename: 'remoteEntry.js',
       exposes: {
         // './Provider': 'state/Provider',
-        './TestPresentation': 'components/Test/TestPresentation',
+        './TestPresentation': '../app/components/Test/TestPresentation',
       },
       remotes: {
         'app_v2': 'app_v2',
