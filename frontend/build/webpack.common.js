@@ -187,9 +187,10 @@ module.exports = (env) => ({
       name: 'app_v1',
       library: { type: 'var', name: 'app_v1' },
       filename: 'remoteEntry.js',
-      // exposes: {
-      //   './Login': 'components/Login',
-      // },
+      exposes: {
+        // './Provider': 'state/Provider',
+        './TestPresentation': 'components/Test/TestPresentation',
+      },
       remotes: {
         'app_v2': 'app_v2',
       },
