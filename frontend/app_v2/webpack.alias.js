@@ -4,6 +4,7 @@ const src = paths.src
 
 module.exports = {
   components: path.resolve(src, 'components'),
+  assets: path.resolve(src, 'assets'),
   //   common: path.resolve(src, 'common'),
   //   qa: path.resolve(src, 'qa'),
   //   state: sourceStateDirectory,

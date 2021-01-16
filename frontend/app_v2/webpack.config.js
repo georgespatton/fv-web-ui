@@ -27,6 +27,10 @@ const config = {
         test: /\.css$/i,
         use: ['style-loader', { loader: 'css-loader', options: { import: true } }, 'postcss-loader'],
       },
+      {
+        test: /\.svg/,
+        type: 'asset/inline',
+      },
     ],
   },
   plugins: [
