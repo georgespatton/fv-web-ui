@@ -1,5 +1,13 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
+import HeaderMenu from 'components/HeaderMenu'
+
+import AboutIcon from 'assets/svg/about.svg'
+import DictionaryIcon from 'assets/svg/dictionary.svg'
+import KidsIcon from 'assets/svg/kids.svg'
+import LearnIcon from 'assets/svg/learn.svg'
+import ResourcesIcon from 'assets/svg/resources.svg'
+
 /**
  * @summary DialectHeaderPresentation
  * @version 1.0.1
@@ -10,52 +18,54 @@ import React from 'react'
  * @returns {node} jsx markup
  */
 function DialectHeaderPresentation() {
+  const menuData = [
+    {
+      title: 'Dictionary',
+      icon: DictionaryIcon,
+      itemsData: [
+        { title: 'Words', href: '/dialect/words' },
+        { title: 'Phrases', href: '/dialect/phrases' },
+      ],
+    },
+    { title: 'Learn', icon: LearnIcon },
+    { title: 'Resources', icon: ResourcesIcon },
+    { title: 'About', icon: AboutIcon },
+    { title: 'Kids', icon: KidsIcon },
+  ]
+
+  const menus = menuData.map((menu) => (
+    <HeaderMenu.Presentation
+      key={`HeaderMenu_${menu.title}`}
+      title={menu.title}
+      icon={menu.icon}
+      itemsData={menu.itemsData}
+    />
+  ))
+
   return (
     <header id="Dialect_header" className="">
       <div className="relative bg-fv-charcoal">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center py-3 md:justify-start md:space-x-10">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
+          <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <a href="#">
+              <a href="/home">
                 <span className="sr-only">FirstVoices Logo</span>
-                <img className="h-8 w-auto sm:h-10" src="assets/images/logo.png" alt="" />
+                <img className="h-8 w-auto sm:h-10" src="/assets/images/logo.png" alt="" />
               </a>
             </div>
-            <nav className="hidden md:flex space-x-10">
-              <div className="relative">
-                <button
-                  type="button"
-                  className="group bg-fv-charcoal rounded-md  inline-flex items-center text-base font-medium text-white hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fv-turquoise"
-                >
-                  <span>Dictionary</span>
-                </button>
-              </div>
-
-              <a href="#" className="text-base font-medium  text-white hover:text-gray-100">
-                Learn
-              </a>
-              <a href="#" className="text-base font-medium  text-white hover:text-gray-100">
-                Resources
-              </a>
-
-              <div className="relative">
-                <button
-                  type="button"
-                  className="group bg-fv-charcoal rounded-md inline-flex items-center text-base font-medium  text-white hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span>About</span>
-                </button>
-              </div>
-            </nav>
-            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a href="#" className="whitespace-nowrap text-base font-medium text-white hover:text-gray-100">
+            <nav className="md:flex space-x-4">{menus}</nav>
+            <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
+              <a
+                href="/nuxeo/logout?requestedUrl=login.jsp"
+                className="whitespace-nowrap text-xl font-medium text-white hover:text-gray-100"
+              >
                 Sign in
               </a>
               <a
-                href="#"
-                className="mx-4 whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-full py-1 px-3 shadow-sm text-base font-medium text-white bg-fv-orange hover:bg-fv-orange-dark"
+                href="/register?requestedUrl=/register"
+                className="mx-4 whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-full py-1 px-3 shadow-sm text-xl font-medium text-white bg-fv-orange hover:bg-fv-orange-dark"
               >
-                Join
+                Register
               </a>
               {/* <form name="searchForm" id="searchForm" action="/explore/FV/sections/Data/search">
                   <div className="">
