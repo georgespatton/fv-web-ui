@@ -13,7 +13,7 @@ import './Header.css'
  */
 function HeaderPresentation({ children }) {
   return (
-    <header id="Navigation__header" className="Navigation__header">
+    <header id="Navigation__header" className="Header Navigation__header">
       <div className="Navigation__toolbar">
         <button
           tabIndex="0"

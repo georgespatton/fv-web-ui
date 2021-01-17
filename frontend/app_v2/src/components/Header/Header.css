@@ -1,3 +1,9 @@
+/* @import "normalize.css"; */
+
 .Header {
   border: 1px solid green;
+}
+.column {
+  display: flex;
+  flex-direction: column;
 }
