@@ -2,6 +2,7 @@ const alias = require('./webpack.alias')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const postcssNormalize = require('postcss-normalize')
 
 const config = {
   entry: './src/index',
@@ -27,7 +28,26 @@ const config = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'postcss-preset-env',
+                    {
+                      // Options
+                    },
+                  ],
+                  postcssNormalize(/* pluginOptions */),
+                ],
+              },
+            },
+          },
+        ],
       },
     ],
   },
