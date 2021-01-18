@@ -1,9 +1,11 @@
-const path = require('path')
+// const path = require('path')
 const paths = require('./webpack.paths')
-const src = paths.src
+// const src = paths.src
 
 module.exports = {
-  components: path.resolve(src, 'components'),
+  components: paths.components,
+  src: paths.src,
+  images: paths.pubImages,
   //   common: path.resolve(src, 'common'),
   //   qa: path.resolve(src, 'qa'),
   //   state: sourceStateDirectory,

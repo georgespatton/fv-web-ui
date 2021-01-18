@@ -3,19 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const postcssNormalize = require('postcss-normalize')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const config = {
+module.exports = {
   entry: './src/index',
   resolve: {
     alias: alias,
     extensions: ['.jsx', '.js', '.json'],
   },
-  devServer: {
-    port: 3002,
-    historyApiFallback: true,
-  },
   output: {
-    publicPath: 'http://localhost:3002/',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -49,9 +46,14 @@ const config = {
           },
         ],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
     new ModuleFederationPlugin({
       name: 'app_v2',
@@ -69,18 +71,4 @@ const config = {
       template: './public/index.html',
     }),
   ],
-}
-
-module.exports = (env, argv) => {
-  if (argv.mode === 'development') {
-    config.devtool = 'source-map'
-  }
-
-  if (argv.mode === 'production') {
-    config.optimization = {
-      minimize: true,
-    }
-  }
-
-  return config
 }
