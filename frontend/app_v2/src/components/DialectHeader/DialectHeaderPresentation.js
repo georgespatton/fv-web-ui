@@ -7,6 +7,7 @@ import DictionaryIcon from 'assets/svg/dictionary.svg'
 import KidsIcon from 'assets/svg/kids.svg'
 import LearnIcon from 'assets/svg/learn.svg'
 import ResourcesIcon from 'assets/svg/resources.svg'
+import logo from 'assets/images/logo.png'
 
 /**
  * @summary DialectHeaderPresentation
@@ -50,7 +51,7 @@ function DialectHeaderPresentation() {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <a href="/home">
                 <span className="sr-only">FirstVoices Logo</span>
-                <img className="h-8 w-auto sm:h-10" src="/assets/images/logo.png" alt="" />
+                <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
               </a>
             </div>
             <nav className="md:flex space-x-4">{menus}</nav>

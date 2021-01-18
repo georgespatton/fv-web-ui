@@ -28,8 +28,8 @@ const config = {
         use: ['style-loader', { loader: 'css-loader', options: { import: true } }, 'postcss-loader'],
       },
       {
-        test: /\.svg/,
-        type: 'asset/inline',
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
     ],
   },
