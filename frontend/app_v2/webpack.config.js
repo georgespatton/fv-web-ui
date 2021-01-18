@@ -1,6 +1,7 @@
 const alias = require('./webpack.alias')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = {
   entry: './src/index',
@@ -26,19 +27,12 @@ const config = {
       },
       {
         test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              import: true,
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new ModuleFederationPlugin({
       name: 'app_v2',
       library: { type: 'var', name: 'app_v2' },
