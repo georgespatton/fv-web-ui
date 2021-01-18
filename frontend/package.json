@@ -5,7 +5,6 @@
   "repository": "https://github.com/First-Peoples-Cultural-Council/fv-web-ui",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "gulp build:production",
     "build:production": "npm run production && npm run production:legacy",
     "cy:trashCopy": "npx trash cypress/integration/__cypress__/* !cypress/integration/__cypress__/__README__.js",
     "cy:copy": "npx copyfiles -e ./app/qa/__cypress__/common/*.js ./app/qa/__cypress__/*.js cypress/integration/__cypress__ -f",
