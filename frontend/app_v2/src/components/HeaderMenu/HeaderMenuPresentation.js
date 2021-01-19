@@ -30,7 +30,7 @@ function HeaderMenuPresentation({ title, icon, itemsData }) {
           }}
           className="group p-2 bg-fv-charcoal rounded-md  inline-flex items-center text-xl font-medium text-white hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-fv-turquoise"
         >
-          <img src={icon} alt={`${title} logo`} />
+          {icon}
           <p className="ml-4 mr-2">{title}</p>
           {hasItems ? <img src={ChevronDownIcon} alt="Show more" /> : null}
         </button>

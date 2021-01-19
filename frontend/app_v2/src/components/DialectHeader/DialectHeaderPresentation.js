@@ -1,13 +1,14 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 import HeaderMenu from 'components/HeaderMenu'
+import DialectHeaderMobile from './DialectHeaderMobile'
 
-import AboutIcon from 'assets/svg/about.svg'
-import DictionaryIcon from 'assets/svg/dictionary.svg'
-import KidsIcon from 'assets/svg/kids.svg'
-import LearnIcon from 'assets/svg/learn.svg'
-import ResourcesIcon from 'assets/svg/resources.svg'
 import logo from 'assets/images/logo.png'
+import AboutIcon from 'assets/icons/AboutIcon'
+import DictionaryIcon from 'assets/icons/DictionaryIcon'
+import KidsIcon from 'assets/icons/KidsIcon'
+import LearnIcon from 'assets/icons/LearnIcon'
+import ResourcesIcon from 'assets/icons/ResourcesIcon'
 
 /**
  * @summary DialectHeaderPresentation
@@ -19,19 +20,24 @@ import logo from 'assets/images/logo.png'
  * @returns {node} jsx markup
  */
 function DialectHeaderPresentation() {
+  const [navbarOpen, setNavbarOpen] = React.useState(false)
+
+  const openCloseNavbar = () => {
+    setNavbarOpen(!navbarOpen)
+  }
   const menuData = [
     {
       title: 'Dictionary',
-      icon: DictionaryIcon,
+      icon: <DictionaryIcon styling={'fill-current h-8 w-6 text-xl'} />,
       itemsData: [
         { title: 'Words', href: '/dialect/words' },
         { title: 'Phrases', href: '/dialect/phrases' },
       ],
     },
-    { title: 'Learn', icon: LearnIcon },
-    { title: 'Resources', icon: ResourcesIcon },
-    { title: 'About', icon: AboutIcon },
-    { title: 'Kids', icon: KidsIcon },
+    { title: 'Learn', icon: <LearnIcon styling={'fill-current h-8 w-6 text-xl'} /> },
+    { title: 'Resources', icon: <ResourcesIcon styling={'fill-current h-8 w-6 text-xl'} /> },
+    { title: 'About', icon: <AboutIcon styling={'fill-current h-8 w-6 text-xl'} /> },
+    { title: 'Kids', icon: <KidsIcon styling={'fill-current h-8 w-6 text-xl'} /> },
   ]
 
   const menus = menuData.map((menu) => (
@@ -48,14 +54,40 @@ function DialectHeaderPresentation() {
       <div className="relative bg-fv-charcoal">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-            <div className="flex justify-start lg:w-0 lg:flex-1">
+            <div className="flex justify-start lg:flex-1">
               <a href="/home">
                 <span className="sr-only">FirstVoices Logo</span>
                 <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
               </a>
             </div>
-            <nav className="md:flex space-x-4">{menus}</nav>
-            <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
+            <div className="-mr-2 -my-2 md:hidden">
+              <button
+                type="button"
+                onClick={() => openCloseNavbar()}
+                className="bg-fv-charcoal rounded-md p-2 inline-flex items-center justify-center text-white hover:text-gray-100 focus:outline-none"
+              >
+                <span className="sr-only">Open menu</span>
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  {navbarOpen ? (
+                    // X icon
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    // Hamburger menu icon
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+
+            <nav className="hidden md:flex space-x-4">{menus}</nav>
+            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="/nuxeo/logout?requestedUrl=login.jsp"
                 className="whitespace-nowrap text-xl font-medium text-white hover:text-gray-100"
@@ -86,6 +118,7 @@ function DialectHeaderPresentation() {
           </div>
         </div>
       </div>
+      {navbarOpen ? <DialectHeaderMobile openCloseNavbar={openCloseNavbar} menuData={menuData} /> : null}
     </header>
   )
 }
