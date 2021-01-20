@@ -4,10 +4,7 @@ import ProviderHelpers from 'common/ProviderHelpers'
 import NavigationHelpers from 'common/NavigationHelpers'
 import IntlService from 'common/services/IntlService'
 
-// Version 1
 import * as Pages from 'common/conf/pagesIndex'
-// Version 2
-const Test = React.lazy(() => import('app_v2/Header'))
 import { ServiceShortURL } from 'common/services'
 import { WORKSPACES, SECTIONS } from 'common/Constants'
 const intl = IntlService.instance
@@ -2529,14 +2526,6 @@ const routes = [
     title: 'Mentor-Apprentice Photo Project',
     page: <Pages.PageMAPPhotoProject />,
     breadcrumbs: false,
-  },
-  // Version 2
-  // ==========================================================
-  {
-    path: ['test'],
-    title: 'test',
-    page: <Test />,
-    version: 2,
   },
 ]
 

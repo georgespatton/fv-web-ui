@@ -20,7 +20,8 @@ import { render } from 'react-dom'
 import ConfGlobal from 'common/conf/local.js'
 
 // REDUX
-import Provider from 'state/Provider'
+import { Provider } from 'react-redux'
+import store from 'state/store'
 // Views
 import AppWrapper from 'components/AppWrapper'
 import Suspender from 'common/Suspender'
@@ -50,7 +51,7 @@ const context = {
 // https://stackoverflow.com/questions/31302803/is-it-ok-to-use-react-render-multiple-times-in-the-dom
 // https://github.com/facebook/react/issues/12700
 render(
-  <Provider>
+  <Provider store={store}>
     <Suspender>
       <Header>
         <Login />
@@ -62,7 +63,7 @@ render(
 
 // Carry on as usual
 render(
-  <Provider>
+  <Provider store={store}>
     <AppWrapper {...context} />
   </Provider>,
   document.getElementById('app-wrapper')
