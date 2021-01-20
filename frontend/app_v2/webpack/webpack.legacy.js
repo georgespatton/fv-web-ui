@@ -29,7 +29,7 @@ module.exports = merge(common, {
                 modules: false,
                 useBuiltIns: 'usage',
                 corejs: { version: '3.6.5', proposals: true },
-                debug: true,
+                // debug: true,
                 targets: {
                   browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'ie >= 11'],
                 },
