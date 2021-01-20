@@ -130,10 +130,8 @@ export class AppFrontController extends Component {
     // Most components make network requests on componentDidMount so we end up
     // with duplicate & unneccessary network requests being fired
     const { matchedPage, routeParams } = this.props
-
     const matchedPageUpdated = is(matchedPage, prevProps.matchedPage) === false
     const siteThemeUpdated = selectn('siteTheme', routeParams) !== selectn('siteTheme', prevProps.routeParams)
-
     // View during user checking, pre routing
     let isLoading = false
     if (matchedPage === undefined || this.props.localeLoading) {
