@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ChevronDownIcon from 'assets/svg/chevron_down.svg'
+import ChevronDownIcon from 'assets/icons/ChevronDownIcon'
 
 /**
  * @summary HeaderMenuPresentation
@@ -12,7 +12,7 @@ import ChevronDownIcon from 'assets/svg/chevron_down.svg'
  *
  * @returns {node} jsx markup
  */
-function HeaderMenuPresentation({ title, icon, itemsData }) {
+function HeaderMenuPresentation({ title, icon, itemsData, href }) {
   const [isOpen, setIsOpen] = useState(false)
   const hasItems = !Array.isArray(itemsData) || !itemsData.length ? false : true
   const menuItems = itemsData
@@ -20,19 +20,30 @@ function HeaderMenuPresentation({ title, icon, itemsData }) {
         <HeaderMenuItem key={`HeaderMenu_${menuItem.title}`} title={menuItem.title} href={menuItem.href} />
       ))
     : null
+
+  const onMenuClick = () => {
+    if (href) {
+      window.location.href = href
+    } else if (hasItems) {
+      setIsOpen(!isOpen)
+    }
+  }
   return (
     <div id={`HeaderMenu_${title}`}>
       <div className="relative">
         <button
           type="button"
           onClick={() => {
-            setIsOpen(!isOpen)
+            onMenuClick()
           }}
-          className="group p-2 bg-fv-charcoal rounded-md  inline-flex items-center text-xl font-medium text-white hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-fv-turquoise"
+          onBlur={() => {
+            setIsOpen(false)
+          }}
+          className="group p-2 bg-fv-charcoal rounded-md  inline-flex items-center text-xl font-medium text-white hover:text-gray-100 focus:outline-none"
         >
           {icon}
           <p className="ml-4 mr-2">{title}</p>
-          {hasItems ? <img src={ChevronDownIcon} alt="Show more" /> : null}
+          {hasItems ? <ChevronDownIcon styling={'fill-current h-12 w-8 text-xl'} /> : null}
         </button>
         {/*
         'Solutions' flyout menu, show/hide based on flyout menu state.
@@ -65,10 +76,10 @@ function HeaderMenuItem({ title, href }) {
   )
 }
 // PROPTYPES
-const { string, array } = PropTypes
+const { array, object, string } = PropTypes
 HeaderMenuPresentation.propTypes = {
   title: string,
-  icon: string,
+  icon: object,
   itemsData: array,
 }
 
