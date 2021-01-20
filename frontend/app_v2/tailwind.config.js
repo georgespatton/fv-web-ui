@@ -16,9 +16,9 @@ module.exports = {
           dark: '#803b21',
         },
         'fv-orange': {
-          light: '#cf9354',
-          DEFAULT: '#C37829',
-          dark: '#9c6021',
+          light: '#e09938',
+          DEFAULT: '#D87F06',
+          dark: '#ad6605',
         },
         'fv-blue': {
           light: '#618699',

@@ -28,16 +28,41 @@ function DialectHeaderPresentation() {
   const menuData = [
     {
       title: 'Dictionary',
-      icon: <DictionaryIcon styling={'fill-current h-8 w-6 text-xl'} />,
+      icon: <DictionaryIcon styling={'fill-current h-12 w-8 text-xl'} />,
       itemsData: [
         { title: 'Words', href: '/dialect/words' },
         { title: 'Phrases', href: '/dialect/phrases' },
+        { title: 'Alphabet', href: '/dialect/alphabet' },
+        { title: 'Browse by Topic', href: '/dialect/topics' },
       ],
     },
-    { title: 'Learn', icon: <LearnIcon styling={'fill-current h-8 w-6 text-xl'} /> },
-    { title: 'Resources', icon: <ResourcesIcon styling={'fill-current h-8 w-6 text-xl'} /> },
-    { title: 'About', icon: <AboutIcon styling={'fill-current h-8 w-6 text-xl'} /> },
-    { title: 'Kids', icon: <KidsIcon styling={'fill-current h-8 w-6 text-xl'} /> },
+    {
+      title: 'Learn',
+      icon: <LearnIcon styling={'fill-current h-12 w-8 text-xl'} />,
+      itemsData: [
+        { title: 'Songs', href: '/dialect/songs' },
+        { title: 'Stories', href: '/dialect/stories' },
+        { title: 'Games', href: '/dialect/games' },
+      ],
+    },
+    {
+      title: 'Resources',
+      icon: <ResourcesIcon styling={'fill-current h-12 w-8 text-xl'} />,
+      itemsData: [
+        { title: 'Kids Site', href: '/dialect/kids' },
+        { title: 'Mobile App', href: '/dialect/app' },
+        { title: 'Keyboard App', href: '/dialect/keyboard' },
+      ],
+    },
+    {
+      title: 'About',
+      icon: <AboutIcon styling={'fill-current h-12 w-8 text-xl'} />,
+      itemsData: [
+        { title: 'Our Language', href: '/dialect/ourlanguage' },
+        { title: 'Our People', href: '/dialect/ourpeople' },
+      ],
+    },
+    { title: 'Kids', icon: <KidsIcon styling={'fill-current h-12 w-8 text-xl'} />, href: '/dialect/kids' },
   ]
 
   const menus = menuData.map((menu) => (
@@ -46,6 +71,7 @@ function DialectHeaderPresentation() {
       title={menu.title}
       icon={menu.icon}
       itemsData={menu.itemsData}
+      href={menu.href ? menu.href : null}
     />
   ))
 
@@ -96,7 +122,7 @@ function DialectHeaderPresentation() {
               </a>
               <a
                 href="/register?requestedUrl=/register"
-                className="mx-4 whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-full py-1 px-3 shadow-sm text-xl font-medium text-white bg-fv-orange hover:bg-fv-orange-dark"
+                className="w-32 h-12 mx-4 whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-full py-3 px-6 shadow-sm text-lg font-medium text-white bg-fv-orange hover:bg-fv-orange-dark"
               >
                 Register
               </a>
