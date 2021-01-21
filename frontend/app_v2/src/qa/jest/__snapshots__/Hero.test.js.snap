@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroPresentation Background set & no foreground content 1`] = `
+<section
+  class="
+      flex
+      justify-center
+      text-white h-96
+    "
+  data-testid="HeroPresentation"
+/>
+`;

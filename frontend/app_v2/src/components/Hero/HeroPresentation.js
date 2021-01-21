@@ -11,6 +11,9 @@ import './Hero.css'
  * @returns {node} jsx markup
  */
 function HeroPresentation({ background, foreground, foregroundIcon }) {
+  if (!background && !foreground && !foregroundIcon) {
+    return null
+  }
   const styles = background
     ? {
         backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0.67)), url(${background})`,
@@ -20,6 +23,7 @@ function HeroPresentation({ background, foreground, foregroundIcon }) {
   const withoutBG = 'text-gray-500 py-16 bg-gray-100'
   return (
     <section
+      data-testid="HeroPresentation"
       className={`
       flex
       justify-center
@@ -27,24 +31,27 @@ function HeroPresentation({ background, foreground, foregroundIcon }) {
     `}
       style={styles}
     >
-      <div
-        className={`
-        flex
-        flex-col
-        flex-grow
-        flex-initial
-        font-bold
-        items-center
-        justify-center
-        max-w-screen-xl
-        px-8
-        sm:flex-row
-        sm:justify-start
-        text-4xl
-      `}
-      >
-        {foregroundIcon} {foreground}
-      </div>
+      {(foreground || foregroundIcon) && (
+        <div
+          data-testid="HeroPresentation__foreground"
+          className={`
+            flex
+            flex-col
+            flex-grow
+            flex-initial
+            font-bold
+            items-center
+            justify-center
+            max-w-screen-xl
+            px-8
+            sm:flex-row
+            sm:justify-start
+            text-4xl
+          `}
+        >
+          {foregroundIcon} {foreground}
+        </div>
+      )}
     </section>
   )
 }
