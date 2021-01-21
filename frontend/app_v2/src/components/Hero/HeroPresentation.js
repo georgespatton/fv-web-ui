@@ -10,7 +10,7 @@ import './Hero.css'
  *
  * @returns {node} jsx markup
  */
-function HeroPresentation({ background, foreground, foregroundIcon }) {
+function HeroPresentation({ background, foreground, foregroundIcon, variant }) {
   if (!background && !foreground && !foregroundIcon) {
     return null
   }
@@ -19,8 +19,8 @@ function HeroPresentation({ background, foreground, foregroundIcon }) {
         backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0.67)), url(${background})`,
       }
     : {}
-  const withBG = 'text-white h-96'
-  const withoutBG = 'text-gray-500 py-16 bg-gray-100'
+  const withBG = `text-white ${variant === 'center' ? 'h-96' : 'py-8'}`
+  const withoutBG = `text-gray-500 bg-gray-100 ${variant === 'center' ? 'py-16' : 'py-8'}`
   return (
     <section
       data-testid="HeroPresentation"
@@ -36,31 +36,31 @@ function HeroPresentation({ background, foreground, foregroundIcon }) {
           data-testid="HeroPresentation__foreground"
           className={`
             flex
-            flex-col
             flex-grow
             flex-initial
-            font-bold
             items-center
-            justify-center
             max-w-screen-xl
             px-8
-            sm:flex-row
-            sm:justify-start
-            text-4xl
+            ${variant === 'center' ? 'flex-col justify-center' : 'flex-row justify-start'}
           `}
         >
-          {foregroundIcon} {foreground}
+          <div className={variant === 'center' ? 'mb-5' : 'mr-5'}>{foregroundIcon}</div>
+          {foreground}
         </div>
       )}
     </section>
   )
 }
 // PROPTYPES
-const { node } = PropTypes
+const { node, oneOf } = PropTypes
 HeroPresentation.propTypes = {
   background: node,
   foreground: node,
   foregroundIcon: node,
+  variant: oneOf(['left', 'center']),
+}
+HeroPresentation.defaultProps = {
+  variant: 'center',
 }
 
 export default HeroPresentation

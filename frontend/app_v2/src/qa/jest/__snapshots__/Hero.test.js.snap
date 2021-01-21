@@ -10,3 +10,36 @@ exports[`HeroPresentation Background set & no foreground content 1`] = `
   data-testid="HeroPresentation"
 />
 `;
+
+exports[`HeroPresentation Renders "left" variant 1`] = `
+<section
+  class="
+      flex
+      justify-center
+      text-white h-96
+    "
+  data-testid="HeroPresentation"
+>
+  <div
+    class="
+            flex
+            flex-grow
+            flex-initial
+            font-bold
+            items-center
+            max-w-screen-xl
+            px-8
+            text-4xl
+            flex-row justify-start
+          "
+    data-testid="HeroPresentation__foreground"
+  >
+    <div
+      class="mr-5"
+    >
+      foregroundIcon
+    </div>
+    foregroundText
+  </div>
+</section>
+`;

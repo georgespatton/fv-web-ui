@@ -38,8 +38,8 @@ function AppFrameContainer() {
               <Route path="/about">
                 <Hero.Presentation
                   background={HeroBackground}
-                  foreground={<h1>Our People</h1>}
-                  foregroundIcon={<div>logo</div>}
+                  foreground={<h1 className="font-bold text-4xl">OUR PEOPLE</h1>}
+                  foregroundIcon='"logo"'
                 />
                 <Content.Presentation
                   heading="Kwak'wala-speaking peoples"

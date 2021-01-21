@@ -90,4 +90,8 @@ describe('HeroPresentation', () => {
       })
     ).toBeInTheDocument()
   })
+  test('Renders "left" variant', () => {
+    render(<HeroPresentation background={HeroBackground} foreground={str} foregroundIcon={strIcon} variant="left" />)
+    expect(screen.getByTestId('HeroPresentation')).toMatchSnapshot()
+  })
 })
