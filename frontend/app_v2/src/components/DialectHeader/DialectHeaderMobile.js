@@ -24,7 +24,7 @@ function DialectHeaderMobile({ menuData }) {
         {menu.icon}
         <p className="ml-3 text-fv-blue font-medium hover:text-fv-blue-dark">{menu.title}</p>
         {!Array.isArray(menu.itemsData) || !menu.itemsData.length ? null : (
-          <ChevronRightIcon styling={'absolute right-3 fill-current h-12 w-8 text-lg'} />
+          <ChevronRightIcon styling={'absolute right-3 fill-current w-10'} />
         )}
       </button>
     </div>
@@ -41,7 +41,7 @@ function DialectHeaderMobile({ menuData }) {
               onClick={() => {}}
               className="w-full m-3 p-1 text-fv-blue flex items-center hover:bg-gray-50 focus:outline-none"
             >
-              <LoginIcon styling={'fill-current h-12 w-8 text-lg'} />
+              <LoginIcon styling={'fill-current h-12 w-8'} />
               <p className="ml-3 text-fv-blue font-medium hover:text-fv-blue-dark">Sign in</p>
             </button>
           </div>
@@ -50,8 +50,7 @@ function DialectHeaderMobile({ menuData }) {
           <div className="w-full flex items-center">
             <a
               href="/register?requestedUrl=/register"
-              //className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-fv-orange  hover:bg-fv-orange-dark"
-              className="w-32 h-12 mx-4 whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-full py-3 px-6 shadow-sm text-lg text-white bg-fv-orange hover:bg-fv-orange-dark"
+              className="ml-8 whitespace-nowrap inline-flex items-center justify-center py-2 px-4 border border-transparent rounded-3xl  shadow-sm text-base font-medium text-white bg-fv-orange hover:bg-fv-orange-dark"
             >
               Register
             </a>
