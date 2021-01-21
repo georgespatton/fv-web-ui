@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
 import HeaderMenu from 'components/HeaderMenu'
 import DialectHeaderMobile from './DialectHeaderMobile'
+import FVToggle from 'components/FVToggle'
 
 import logo from 'assets/images/logo.png'
 import AboutIcon from 'assets/icons/AboutIcon'
@@ -30,9 +31,6 @@ function DialectHeaderPresentation() {
   const onWorkspaceModeClick = () => {
     setWorkspaceMode(!workspaceMode)
   }
-
-  const toggleInputClass = workspaceMode ? ' border-fv-green right-0' : ' border-fv-warning-red'
-  const toggleLabelClass = workspaceMode ? ' bg-fv-green right-0' : ' bg-fv-warning-red'
 
   // Hardcoding menu data temporarily
   // TODO: Store menu data on dialect
@@ -175,29 +173,8 @@ function DialectHeaderPresentation() {
                       </a>
                       <div className="block hover:bg-gray-100">
                         <label htmlFor="toggle">Workspace Mode</label>
-                        <div
-                          onClick={() => onWorkspaceModeClick()}
-                          className="relative inline-block float-right w-12 align-middle select-none transition duration-200 ease-in"
-                        >
-                          <input
-                            type="checkbox"
-                            name="toggle"
-                            id="workspace-toggle"
-                            className={`absolute block w-7 h-7 rounded-full bg-white border-2 appearance-none cursor-pointer focus:outline-none ${toggleInputClass}`}
-                          />
-                          <label
-                            htmlFor="toggle"
-                            className={`block overflow-hidden h-7 rounded-full cursor-pointer ${toggleLabelClass}`}
-                          >
-                            {workspaceMode ? (
-                              <p className="text-white text-xxs p-0.5">ON</p>
-                            ) : (
-                              <p className="absolute text-white text-xxs p-0.5 right-0">OFF</p>
-                            )}
-                          </label>
-                        </div>
+                        <FVToggle toggled={workspaceMode} toggleCallback={onWorkspaceModeClick} />
                       </div>
-
                       <a href="/nuxeo/logout" className="block hover:bg-gray-100" role="menuitem">
                         Sign out
                       </a>
