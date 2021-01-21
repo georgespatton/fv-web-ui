@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Hero.css'
 /**
  * @summary HeroPresentation
  * @version 1.0.1

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Content.css'
+
 /**
  * @summary ContentPresentation
  * @version 1.0.1
@@ -12,10 +12,24 @@ import './Content.css'
  */
 function ContentPresentation({ heading, body }) {
   return (
-    <section className="Content">
-      <h1>{heading}</h1>
-      {body}
-    </section>
+    <div className="flex justify-center">
+      <section className="max-w-screen-xl py-14 px-24">
+        <h1
+          className={`
+          border-b
+          border-gray-500
+          font-bold
+          mb-10
+          pb-5
+          text-5xl
+          text-fv-blue
+      `}
+        >
+          {heading}
+        </h1>
+        <div className="prose-xl">{body}</div>
+      </section>
+    </div>
   )
 }
 // PROPTYPES

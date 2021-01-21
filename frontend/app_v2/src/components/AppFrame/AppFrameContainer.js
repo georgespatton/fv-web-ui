@@ -38,13 +38,13 @@ function AppFrameContainer() {
               <Route path="/about">
                 <Hero.Presentation
                   background={HeroBackground}
-                  foreground={<h1 className="font-bold text-4xl">OUR PEOPLE</h1>}
+                  foreground={<h1 className="font-bold text-5xl">OUR PEOPLE</h1>}
                   foregroundIcon='"logo"'
                 />
                 <Content.Presentation
                   heading="Kwak'wala-speaking peoples"
                   body={
-                    <div>
+                    <>
                       <p>
                         Eiusmod reprehenderit magna laboris do non do do dolore aute ex. Duis dolore sunt non cupidatat
                         duis cupidatat deserunt laboris id amet aliquip velit duis eu. Duis commodo consequat ea irure
@@ -52,6 +52,8 @@ function AppFrameContainer() {
                         pariatur voluptate qui tempor sit magna aute ut officia laboris. Incididunt eiusmod
                         reprehenderit ullamco dolor est irure ex.
                       </p>
+
+                      <h2>Heading</h2>
 
                       <p>
                         Adipisicing tempor sit enim non. Duis sit aliquip ipsum qui enim reprehenderit minim pariatur
@@ -76,7 +78,7 @@ function AppFrameContainer() {
                         Culpa eiusmod Lorem consectetur sunt anim laborum nisi fugiat. Lorem deserunt incididunt labore
                         non duis. Mollit aliquip pariatur eu ad sunt.
                       </p>
-                    </div>
+                    </>
                   }
                 />
               </Route>
@@ -94,7 +96,7 @@ function AppFrameContainer() {
 // Example sub-pages that would be imported/lazy loaded
 // ============================================================
 function Home() {
-  return <h2>Home</h2>
+  return <h2>[Showing Home page]</h2>
 }
 
 // function About() {
