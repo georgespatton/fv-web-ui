@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // import PropTypes from 'prop-types'
-import HeaderMenu from 'components/HeaderMenu'
+import DialectHeaderMenu from './DialectHeaderMenu'
 import DialectHeaderMobile from './DialectHeaderMobile'
 import FVToggle from 'components/FVToggle'
 
@@ -23,6 +23,7 @@ import ResourcesIcon from 'assets/icons/ResourcesIcon'
 function DialectHeaderPresentation() {
   const [mobileNavbarOpen, setMobileNavbarOpen] = useState(false)
   const [workspaceMode, setWorkspaceMode] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
   const openCloseNavbar = () => {
     setMobileNavbarOpen(!mobileNavbarOpen)
@@ -31,6 +32,27 @@ function DialectHeaderPresentation() {
   const onWorkspaceModeClick = () => {
     setWorkspaceMode(!workspaceMode)
   }
+
+  // Logic to close menu on click away
+  const userMenu = useRef()
+  const handleClickOutside = (event) => {
+    if (userMenu.current.contains(event.target)) {
+      // inside click
+      return
+    }
+    // outside click
+    setIsUserMenuOpen(false)
+  }
+  useEffect(() => {
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isUserMenuOpen])
 
   // Hardcoding menu data temporarily
   // TODO: Store menu data on dialect
@@ -73,12 +95,11 @@ function DialectHeaderPresentation() {
     },
     { title: 'Kids', icon: <KidsIcon styling={'fill-current h-12 w-8'} />, href: '/dialect/kids' },
   ]
-  const currentUser = { userInitials: 'PA' }
-  const isOpen = true
+  const currentUser = { userInitials: 'GM' }
 
   const menus = menuData.map((menu) => (
-    <HeaderMenu.Presentation
-      key={`HeaderMenu_${menu.title}`}
+    <DialectHeaderMenu
+      key={`DialectHeaderMenu_${menu.title}`}
       title={menu.title}
       icon={menu.icon}
       itemsData={menu.itemsData}
@@ -126,19 +147,20 @@ function DialectHeaderPresentation() {
               </a>
             </div>
           ) : (
-            <div className="hidden relative ml-8 md:flex justify-end md:flex-1 lg:w-0">
-              {/* Profile Avatar */}
+            <div ref={userMenu} className="hidden relative ml-8 md:flex justify-end md:flex-1 lg:w-0">
+              {/* User Avatar */}
               <div className="ml-4 flex items-center md:ml-6">
                 <button
-                  className="max-w-xs p-3 bg-fv-orange  text-white text-xl rounded-full h-12 w-12 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="max-w-xs p-3 bg-fv-orange  text-white text-xl rounded-full h-12 w-12 flex items-center justify-center focus:outline-none"
                   id="user-menu"
                 >
                   <span className="sr-only">Open user menu</span>
                   {currentUser.userInitials}
                 </button>
               </div>
-              {/* Profile dropdown */}
-              {isOpen ? (
+              {/* User Menu dropdown */}
+              {isUserMenuOpen ? (
                 <div className="absolute mt-8 w-72 px-2 sm:py-8 sm:px-0 transform lg:-translate-x-0" role="menu">
                   <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div className="text-base text-fv-charcoal font-medium grid bg-white sm:gap-8 sm:p-8">

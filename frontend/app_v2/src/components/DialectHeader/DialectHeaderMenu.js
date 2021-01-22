@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ChevronDownIcon from 'assets/icons/ChevronDownIcon'
 
 /**
- * @summary HeaderMenuPresentation
+ * @summary DialectHeaderMenu
  * @version 1.0.1
  * @component
  *
@@ -12,12 +12,19 @@ import ChevronDownIcon from 'assets/icons/ChevronDownIcon'
  *
  * @returns {node} jsx markup
  */
-function HeaderMenuPresentation({ title, icon, itemsData, href }) {
+function DialectHeaderMenu({ title, icon, itemsData, href }) {
   const [isOpen, setIsOpen] = useState(false)
   const hasItems = !Array.isArray(itemsData) || !itemsData.length ? false : true
+
   const menuItems = itemsData
     ? itemsData.map((menuItem) => (
-        <HeaderMenuItem key={`HeaderMenu_${menuItem.title}`} title={menuItem.title} href={menuItem.href} />
+        <div key={`HeaderMenu_${menuItem.title}`}>
+          <a href={menuItem.href} className="-m-3 py-1 flex items-start rounded-lg hover:bg-gray-50">
+            <div className="ml-4">
+              <p className="text-lg font-medium text-black">{menuItem.title}</p>
+            </div>
+          </a>
+        </div>
       ))
     : null
 
@@ -28,16 +35,34 @@ function HeaderMenuPresentation({ title, icon, itemsData, href }) {
       setIsOpen(!isOpen)
     }
   }
+
+  // Logic to close menu on click away
+  const dialectHeaderMenu = useRef()
+  const handleClickOutside = (event) => {
+    if (dialectHeaderMenu.current.contains(event.target)) {
+      // inside click
+      return
+    }
+    // outside click
+    setIsOpen(false)
+  }
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   return (
-    <div id={`HeaderMenu_${title}`} className="relative">
+    <div id={`HeaderMenu_${title}`} ref={dialectHeaderMenu} className="relative">
       <button
         type="button"
-        onClick={() => {
-          onMenuClick()
-        }}
-        onBlur={() => {
-          setIsOpen(false)
-        }}
+        onClick={() => onMenuClick()}
+        // onBlur={() => setIsOpen(false)}
         className="group p-2 bg-fv-charcoal rounded-md  inline-flex items-center text-lg font-medium text-white hover:text-gray-100 focus:outline-none"
       >
         {icon}
@@ -64,22 +89,13 @@ function HeaderMenuPresentation({ title, icon, itemsData, href }) {
   )
 }
 
-function HeaderMenuItem({ title, href }) {
-  return (
-    <a href={href} className="-m-3 py-1 flex items-start rounded-lg hover:bg-gray-50">
-      <div className="ml-4">
-        <p className="text-lg font-medium text-black">{title}</p>
-      </div>
-    </a>
-  )
-}
 // PROPTYPES
 const { array, object, string } = PropTypes
-HeaderMenuPresentation.propTypes = {
+DialectHeaderMenu.propTypes = {
   title: string,
   icon: object,
   href: string,
   itemsData: array,
 }
 
-export default HeaderMenuPresentation
+export default DialectHeaderMenu
