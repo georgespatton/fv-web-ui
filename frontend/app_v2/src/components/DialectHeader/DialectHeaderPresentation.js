@@ -74,6 +74,7 @@ function DialectHeaderPresentation() {
     { title: 'Kids', icon: <KidsIcon styling={'fill-current h-12 w-8'} />, href: '/dialect/kids' },
   ]
   const currentUser = { userInitials: 'PA' }
+  const isOpen = true
 
   const menus = menuData.map((menu) => (
     <HeaderMenu.Presentation
@@ -94,30 +95,6 @@ function DialectHeaderPresentation() {
               <span className="sr-only">FirstVoices Logo</span>
               <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
             </a>
-          </div>
-          <div className="-mr-2 -my-2 md:hidden">
-            <button
-              type="button"
-              onClick={() => openCloseNavbar()}
-              className="bg-fv-charcoal rounded-md p-2 inline-flex items-center justify-center text-white hover:text-gray-100 focus:outline-none"
-            >
-              <span className="sr-only">Open menu</span>
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {mobileNavbarOpen ? (
-                  // X icon
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  // Hamburger menu icon
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
           </div>
 
           <div className="hidden md:flex space-x-6">{menus}</div>
@@ -149,41 +126,68 @@ function DialectHeaderPresentation() {
               </a>
             </div>
           ) : (
-            <div className="ml-8 hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <div className="hidden md:block">
-                <div className="ml-4 flex items-center md:ml-6">
-                  {/* Profile Avatar */}
-                  <div className="ml-3 relative">
-                    <div>
-                      <button
-                        className="max-w-xs p-3 bg-fv-orange  text-white text-xl rounded-full h-12 w-12 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                        id="user-menu"
-                      >
-                        <span className="sr-only">Open user menu</span>
-                        {currentUser.userInitials}
-                      </button>
-                    </div>
-                    {/* Profile dropdown */}
-                    <div
-                      className="text-base text-fv-charcoal font-medium origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 grid gap-4 sm:gap-8 sm:p-8"
-                      role="menu"
-                    >
-                      <a href="/dashboard" className="block  hover:bg-gray-100" role="menuitem">
+            <div className="hidden relative ml-8 md:flex justify-end md:flex-1 lg:w-0">
+              {/* Profile Avatar */}
+              <div className="ml-4 flex items-center md:ml-6">
+                <button
+                  className="max-w-xs p-3 bg-fv-orange  text-white text-xl rounded-full h-12 w-12 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  id="user-menu"
+                >
+                  <span className="sr-only">Open user menu</span>
+                  {currentUser.userInitials}
+                </button>
+              </div>
+              {/* Profile dropdown */}
+              {isOpen ? (
+                <div className="absolute mt-8 w-72 px-2 sm:py-8 sm:px-0 transform lg:-translate-x-0" role="menu">
+                  <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                    <div className="text-base text-fv-charcoal font-medium grid bg-white sm:gap-8 sm:p-8">
+                      <a href="/dashboard" className="-m-3 py-1  hover:bg-gray-100" role="menuitem">
                         Dashboard
                       </a>
-                      <div className="block hover:bg-gray-100">
-                        <label htmlFor="toggle">Workspace Mode</label>
-                        <FVToggle toggled={workspaceMode} toggleCallback={onWorkspaceModeClick} />
+                      <div className="whitespace-nowrap -m-3 py-1 hover:bg-gray-100">
+                        <label htmlFor="toggle" className="inline-block">
+                          Workspace Mode
+                        </label>
+                        <FVToggle
+                          toggled={workspaceMode}
+                          toggleCallback={onWorkspaceModeClick}
+                          styling={'ml-6 inline-block align-middle'}
+                        />
                       </div>
-                      <a href="/nuxeo/logout" className="block hover:bg-gray-100" role="menuitem">
+                      <a href="/nuxeo/logout" className="-m-3 py-1 hover:bg-gray-100" role="menuitem">
                         Sign out
                       </a>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           )}
+          <div className="-mr-2 -my-2 md:hidden">
+            <button
+              type="button"
+              onClick={() => openCloseNavbar()}
+              className="bg-fv-charcoal rounded-md p-2 inline-flex items-center justify-center text-white hover:text-gray-100 focus:outline-none"
+            >
+              <span className="sr-only">Open menu</span>
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {mobileNavbarOpen ? (
+                  // X icon
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  // Hamburger menu icon
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </nav>
 
