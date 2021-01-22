@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
  *
  * @returns {node} jsx markup
  */
-function FVTogglePresentation({ toggled, toggleCallback }) {
+function FVTogglePresentation({ toggled, toggleCallback, styling }) {
   const toggleInputClass = toggled ? ' border-fv-green right-0' : ' border-fv-warning-red'
   const toggleLabelClass = toggled ? ' bg-fv-green right-0' : ' bg-fv-warning-red'
 
@@ -21,31 +21,34 @@ function FVTogglePresentation({ toggled, toggleCallback }) {
   }
 
   return (
-    <div
-      onClick={() => onToggleClick()}
-      className="relative inline-block float-right w-12 align-middle select-none transition duration-200 ease-in"
-    >
-      <input
-        type="checkbox"
-        name="toggle"
-        id="workspace-toggle"
-        className={`absolute block w-7 h-7 rounded-full bg-white border-2 appearance-none cursor-pointer focus:outline-none ${toggleInputClass}`}
-      />
-      <label htmlFor="toggle" className={`block overflow-hidden h-7 rounded-full cursor-pointer ${toggleLabelClass}`}>
-        {toggled ? (
-          <p className="text-white text-xxs p-0.5">ON</p>
-        ) : (
-          <p className="absolute text-white text-xxs p-0.5 right-0">OFF</p>
-        )}
-      </label>
+    <div className={styling}>
+      <div
+        onClick={() => onToggleClick()}
+        className="relative w-12 align-middle select-none transition duration-200 ease-in"
+      >
+        <input
+          type="checkbox"
+          name="toggle"
+          id="workspace-toggle"
+          className={`absolute block w-7 h-7 rounded-full bg-white border-2 appearance-none cursor-pointer focus:outline-none ${toggleInputClass}`}
+        />
+        <label htmlFor="toggle" className={`block overflow-hidden h-7 rounded-full cursor-pointer ${toggleLabelClass}`}>
+          {toggled ? (
+            <p className="text-white text-xxs p-0.5">ON</p>
+          ) : (
+            <p className="absolute text-white text-xxs p-0.5 right-0">OFF</p>
+          )}
+        </label>
+      </div>
     </div>
   )
 }
 // PROPTYPES
-const { bool, func } = PropTypes
+const { bool, func, string } = PropTypes
 FVTogglePresentation.propTypes = {
   toggled: bool,
   toggleCallback: func,
+  styling: string,
 }
 
 FVTogglePresentation.defaultProps = {
