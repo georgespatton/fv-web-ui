@@ -25,7 +25,7 @@ function DialectHeaderPresentation() {
   const [workspaceMode, setWorkspaceMode] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
-  const openCloseNavbar = () => {
+  const openCloseMobileNavbar = () => {
     setMobileNavbarOpen(!mobileNavbarOpen)
   }
 
@@ -147,7 +147,7 @@ function DialectHeaderPresentation() {
               </a>
             </div>
           ) : (
-            <div ref={userMenu} className="hidden relative ml-8 md:flex justify-end md:flex-1 lg:w-0">
+            <div ref={userMenu} className="relative ml-8 flex justify-end flex-1 lg:w-0">
               {/* User Avatar */}
               <div className="ml-4 flex items-center md:ml-6">
                 <button
@@ -161,9 +161,9 @@ function DialectHeaderPresentation() {
               </div>
               {/* User Menu dropdown */}
               {isUserMenuOpen ? (
-                <div className="absolute mt-8 w-72 px-2 sm:py-8 sm:px-0 transform lg:-translate-x-0" role="menu">
+                <div className="absolute mt-8 w-72 py-8 transform lg:-translate-x-0" role="menu">
                   <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                    <div className="text-base text-fv-charcoal font-medium grid bg-white sm:gap-8 sm:p-8">
+                    <div className="text-base text-fv-charcoal font-medium grid bg-white gap-12 p-8 md:gap-8">
                       <a href="/dashboard" className="-m-3 py-1  hover:bg-gray-100" role="menuitem">
                         Dashboard
                       </a>
@@ -189,7 +189,7 @@ function DialectHeaderPresentation() {
           <div className="-mr-2 -my-2 md:hidden">
             <button
               type="button"
-              onClick={() => openCloseNavbar()}
+              onClick={() => openCloseMobileNavbar()}
               className="bg-fv-charcoal rounded-md p-2 inline-flex items-center justify-center text-white hover:text-gray-100 focus:outline-none"
             >
               <span className="sr-only">Open menu</span>
@@ -214,7 +214,7 @@ function DialectHeaderPresentation() {
       </nav>
 
       {/* -- Mobile Menu -- */}
-      {mobileNavbarOpen ? <DialectHeaderMobile openCloseNavbar={openCloseNavbar} menuData={menuData} /> : null}
+      {mobileNavbarOpen ? <DialectHeaderMobile openCloseNavbar={openCloseMobileNavbar} menuData={menuData} /> : null}
       <header className="bg-white shadow">
         <div className="max-w-screen-2xl py-6 px-4 sm:px-6 lg:px-8 xl:px-20 mx-auto">
           <h1 className="text-lg leading-tight text-gray-900">Breadcrumbs</h1>
