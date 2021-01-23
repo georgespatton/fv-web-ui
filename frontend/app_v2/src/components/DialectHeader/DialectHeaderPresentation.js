@@ -4,7 +4,7 @@ import DialectHeaderMenu from './DialectHeaderMenu'
 import DialectHeaderMobile from './DialectHeaderMobile'
 import FVToggle from 'components/FVToggle'
 
-import logo from 'assets/images/logo.png'
+import Logo from 'assets/icons/Logo'
 import AboutIcon from 'assets/icons/AboutIcon'
 import DictionaryIcon from 'assets/icons/DictionaryIcon'
 import KidsIcon from 'assets/icons/KidsIcon'
@@ -111,10 +111,10 @@ function DialectHeaderPresentation() {
     <div id="Dialect_header" className="relative bg-fv-charcoal">
       <nav className="max-w-screen-2xl mx-auto px-4 sm:px-6 xl:px-20">
         <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-          <div className="flex justify-start lg:w-0 lg:flex-1">
+          <div className="justify-start lg:w-0 lg:flex-1">
             <a href="/home">
               <span className="sr-only">FirstVoices Logo</span>
-              <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
+              <Logo styling={'fill-current text-white h-10'} />
             </a>
           </div>
 
