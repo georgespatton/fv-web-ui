@@ -22,11 +22,5 @@ services:
         fv.cognito.authenticateWithCognito=false\n
       - CYPRESS_FV_USERNAME
       - CYPRESS_FV_PASSWORD
-      - COMMIT_INFO_BRANCH
-      - COMMIT_INFO_MESSAGE
-      - COMMIT_INFO_EMAIL
-      - COMMIT_INFO_AUTHOR
-      - COMMIT_INFO_SHA
-      - COMMIT_INFO_REMOTE
     labels:
       - "ca.firstvoices.group=local_docker"
